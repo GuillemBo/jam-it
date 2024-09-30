@@ -19,6 +19,17 @@ export class EventService {
         musicians:[]
       },
       date: new Date()
+    },
+    {
+      title: 'jam in gòtic',
+      description: 'night of music',
+      musicStyle: 'blues',
+      space: null,
+      group: {
+        name: 'blue band',
+        musicians:[]
+      },
+      date: new Date()
     }];
   }
 }
