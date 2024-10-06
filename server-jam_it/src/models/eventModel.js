@@ -14,7 +14,7 @@ const Event = sequelize.define('Event', {
         type: DataTypes.INTEGER(8),
         allowNull: false,
         references: {
-            model: 'venue',
+            model: 'venues',
             key: 'id_venue'
             },
     onUpdate: 'CASCADE',

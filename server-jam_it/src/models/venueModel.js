@@ -12,7 +12,7 @@ const Venue = sequelize.define('Venue', {
       type: DataTypes.INTEGER(8).UNSIGNED,
       allowNull: false,
       references: {
-          model: User,
+          model: 'users',
           key: 'id_user'
       }
   },

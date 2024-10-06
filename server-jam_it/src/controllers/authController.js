@@ -109,7 +109,7 @@ export const login = async (req, res) => {
         user: {
           name: user.name,
           surname: user.surname,
-          email: user.email
+          email: user.email,
         } 
       }
     });

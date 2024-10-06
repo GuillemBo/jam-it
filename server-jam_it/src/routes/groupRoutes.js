@@ -9,7 +9,7 @@ import { idValidator } from '../validations/generic.Validation.js'
 const router = Router();
 
 // Rutas para obtener y modificar los datos de los usuarios
-router.get('/', authenticateToken(['user', 'mod', 'admin']), getGroups);
+router.get('/', authenticateToken(['musician', 'venue']), getGroups);
 router.get('/:id', authenticateToken(['user', 'mod', 'admin']), groupIdValidator, getGroupById);
 router.post('/', authenticateToken(['mod', 'admin']), groupValidator, createGroup);
 router.patch('/:id', authenticateToken(['mod', 'admin']), groupIdValidator, groupValidator, updateGroup);
