@@ -15,10 +15,10 @@
         
         <div class="grid md:grid-cols-2 gap-8">
                 @for (card of cards; track $index) {
-                <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
+                <a  [queryParams]="{role: card.role}" [routerLink]="['/register']" class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
                     <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">{{cards[$index].title}}</h2>
                     <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">{{cards[$index].description}}</p>
-                </div>
+                </a>
             }
             </div>
     </div>

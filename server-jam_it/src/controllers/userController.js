@@ -1,22 +1,17 @@
+import bcrypt from 'bcrypt';
 import User from '../models/userModel.js';
 import { validationResult } from 'express-validator';
 import fs from 'fs';
-import path from 'path';
-//https://www.bezkoder.com/node-js-express-file-upload/
-
 
 export const getUser = async (req, res) => {
   try {
 
     const user_data = {
       "id_user": req.user.id_user,
-      "email": req.user.email,
       "name": req.user.name,
-      "surname": req.user.surname,
-      "photo": req.user.photo,
-      "roles": req.user.roles,
+      "email": req.user.email,
+      "role": req.user.role,
       "created_at": req.user.created_at,
-      "updated_at": req.user.updated_at
     };
 
     // Enviar una respuesta al cliente
@@ -33,6 +28,9 @@ export const getUser = async (req, res) => {
     });
   }
 };
+
+
+// CODIGO PARA SUBIR FOTOS (POR SI QUIERO MAS ADELANTE)
 
 export const uploadPhoto = async (req, res) => {
   try {

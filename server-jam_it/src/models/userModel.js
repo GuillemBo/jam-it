@@ -7,6 +7,10 @@ const User = sequelize.define('User', {
     primaryKey: true,
     autoIncrement: true,
   },
+  name: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
   email: {
     type: DataTypes.STRING(100),
     allowNull: false,
@@ -15,38 +19,38 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
-  name: {
-    type: DataTypes.STRING(30),
-    allowNull: false,
-  },
-  surname: {
-    type: DataTypes.STRING(30),
-    allowNull: true,
-  },
-  roles: {
-    type: DataTypes.STRING(30),
+  role: {
+    type: DataTypes.ENUM('musician', 'venue'),
     allowNull: false,
     get() {
-      const rawValue = this.getDataValue('roles');
+      const rawValue = this.getDataValue('role');
       if (!rawValue) {
-        console.log('Valor de roles es undefined o null');
+        console.log('Valor de role es undefined o null');
         return [];
       }
       return rawValue.split(',');
     },
     set(value) {
-      this.setDataValue('roles', value.join(','));
+      this.setDataValue('role', value.join(','));
     }
   },
-  photo: {
-    type: DataTypes.STRING(30),
-    allowNull: true,
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   },
+  // photo: {
+  //   type: DataTypes.STRING(30),
+  //   allowNull: true,
+  // },
 },{
   indexes: [{ unique: true, fields: ['email'] }],
-  timestamps: true, // Activa la creación automática de createdAt y updatedAt
-  updatedAt: 'updated_at',
-  createdAt: 'created_at'
+  
+  tableName: 'users',
+  timestamps: false,
+
+  // timestamps: true, // Activa la creación automática de createdAt y updatedAt
+  // updatedAt: 'updated_at',
+  // createdAt: 'created_at'  /////CODIGO ANTIGUO.
 });
 
 export default User;

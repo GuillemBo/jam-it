@@ -1,5 +1,5 @@
 import User from './models/userModel.js';
-import Book from './models/bookModel.js';
+import Group from './models/groupModel.js';
 
 
 const insertInitialUserData = async () => {
@@ -9,47 +9,45 @@ const insertInitialUserData = async () => {
       email: 'ismael.academy@gmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Ismael',
-      roles: ['user']
+      role: ['user']
     }, 
     {
       email: 'laura@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Laura',
-      roles: ['user']
+      role: ['user']
     },
     {
       email: 'maria@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Maria',
       surname: 'kale',
-      roles: ['mod', 'admin']
+      role: ['mod', 'admin']
     },
     {
       email: 'mod@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Moderador',
-      surname: 'kale',
-      roles: ['admin']
+      role: ['admin']
     },
     {
       email: 'admin@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Admin',
-      surname: 'kale',
-      roles: ['admin']
+      role: ['admin']
     }
   ];
   // Insertar datos con opción ignoreDuplicates
   // Para actualizar todas las filas: updateOnDuplicate: Object.keys(User.rawAttributes)
   await User.bulkCreate(userData, { ignoreDuplicates: true });
   
-  const bookData = [
-    { title: 'TituloA', year: 1955 },
-    { title: 'TituloB', year: 1988 },
-    { title: 'TituloC', year: 1475, user_id: 2 }
+  const groupData = [
+    { name: 'Rock Band', user_id: 1 },
+    { name: 'Jazz Ensemble', user_id: 2 },
+    { name: 'Folk Band', user_id: 3 },  
   ];
   // Insertar datos con opción ignoreDuplicates
-  await Book.bulkCreate(bookData, { ignoreDuplicates: true });
+  await Group.bulkCreate(groupData, { ignoreDuplicates: true });
 }
 
 export { insertInitialUserData };

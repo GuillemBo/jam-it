@@ -23,7 +23,7 @@ export const authenticateToken = (allowedRoles) => async (req, res, next) => {
       });
     }
 
-    const hasPermission = user.roles.some(role => allowedRoles.includes(role));
+    const hasPermission = user.roles.some(roles => allowedRoles.includes(roles));
     if (!hasPermission) {
       return res.status(403).json({
         code: -10,

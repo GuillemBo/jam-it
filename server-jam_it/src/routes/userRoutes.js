@@ -9,6 +9,6 @@ const router = Router();
 
 // Rutas para obtener y modificar los datos de los usuarios
 router.get('/', authenticateToken(['user']), getUser);
-router.post("/upload-photo", authenticateToken(['user']), uploadFileMiddleware, uploadPhoto);
+// router.post("/upload-photo", authenticateToken(['user']), uploadFileMiddleware, uploadPhoto);
 
 export default router;

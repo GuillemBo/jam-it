@@ -1,34 +1,25 @@
-import Book from '../models/bookModel.js';
+import Group from '../models/groupModel.js';
 import { validationResult } from 'express-validator';
 
-export const getBooks = async (req, res) => {
+export const getGroups = async( req, res ) => {
   try {
-    const errors = validationResult(req);
-
-    // Si hay errores de validación, responde con un estado 400 Bad Request
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    // Obtener todos los usuarios de la base de datos
-    const books = await Book.findAll();
-
-    // Enviar una respuesta al cliente
-    res.status(200).json({
+    const groups = await Group.findAll();
+    return res.status(200).json({
       code: 1,
-      message: 'Books List',
-      data: books
+      message: 'Groups retrieved successfully',
+      data: groups
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: -100,
-      message: 'Ha ocurrido un error al obtener los libros',
+      message: 'An error ocurred while retrieveng the groups',
+      error: error.message
     });
   }
-};
+}
 
-export const getBookById = async (req, res) => {
+export const getGroupById = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -40,30 +31,30 @@ export const getBookById = async (req, res) => {
     const { id } = req.params;
 
     // Buscar un usuario por su ID en la base de datos
-    const book = await Book.findByPk(id);
-    if (!book) {
+    const group = await Group.findByPk(id);
+    if (!group) {
       return res.status(404).json({
         code: -6,
-        message: 'Libro no encontrado'
+        message: 'No group found with ID: ${id'
       });
     }
 
     // Enviar una respuesta al cliente
     res.status(200).json({
       code: 1,
-      message: 'Book Detail',
-      data: book
+      message: 'Group retrieved successfully',
+      data: group
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: -100,
-      message: 'Ha ocurrido un error al obtener el libro'
+      message: 'An error occurred while retrieving the group'
     });
   }
 };
 
-export const addBook = async (req, res) => {
+export const createGroup = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -72,43 +63,44 @@ export const addBook = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, year } = req.body;
-    let newBook;
+    const { user_id, name } = req.body;
+    let newGroup;
     try {
-      newBook = await Book.create({ title: title, year: year, user_id: req.user.id_user });
+      newGroup = await Group.create({ user_id, name });
     } catch (error) {
       // Si hay un error de duplicación de clave única (por ejemplo, título duplicado)
       if (error.name === 'SequelizeUniqueConstraintError') {
         res.status(400).json({
           code: -61,
-          message: 'Duplicate Book Title'
+          message: 'Duplicate Group Title'
         });
       }
     }
 
-    if (!newBook) {
+    if (!newGroup) {
       return res.status(404).json({
         code: -6,
-        message: 'Error When Adding The Book'
+        message: 'Error When Creating the Group'
       });
     }
 
     // Enviar una respuesta al cliente
     res.status(200).json({
       code: 1,
-      message: 'Book Added Successfully',
-      data: newBook
+      message: 'Group Created Successfully',
+      data: newGroup
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: -100,
-      message: 'Ha ocurrido un error al añadir el libro'
+      message: 'An error occurred while creating the group'
     });
   }
 };
 
-export const updateBook = async (req, res) => {
+
+export const updateGroup = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -118,38 +110,36 @@ export const updateBook = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { title, year } = req.body;
+    const { name } = req.body;
 
-    // Buscar un usuario por su ID en la base de datos
-    const book = await Book.findByPk(id);
-    if (!book) {
+
+    const group = await Group.findByPk(id);
+    if (!group) {
       return res.status(404).json({
         code: -3,
-        message: 'Book no encontrado'
+        message: `Group not found with ID: ${id}`
       });
     }
 
-    // Actualizar el correo electrónico y la contraseña del usuario
-    book.title = title;
-    book.year = year;
-    await book.save();
+    group.name = title;
 
-    // Enviar una respuesta al cliente
+    await group.save();
+
     res.status(200).json({
       code: 1,
-      message: 'Book Updated Successfully',
-      data: book
+      message: 'Group Updated Successfully',
+      data: group
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: -100,
-      message: 'Ha ocurrido un error al actualizar el libro'
+      message: 'An error occurred while updating the group'
     });
   }
 };
 
-export const deleteBook = async (req, res) => {
+export const deleteGroup = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -160,28 +150,27 @@ export const deleteBook = async (req, res) => {
 
     const { id } = req.params;
 
-    // Buscar un libro por su ID en la base de datos y eliminarlo
-    const deletedBook = await Book.destroy({ where: { id_book: id } });
+    const deletedGroup = await Group.destroy({ where: { id_group: id } });
 
-    // Verificar si el libro fue encontrado y eliminado
-    if (!deletedBook) {
+    // Verificar si el venue fue encontrado y eliminado
+    if (!deletedGroup) {
       return res.status(404).json({
         code: -100,
-        message: 'Book Not Found'
+        message: 'Group Not Found'
       });
      }
  
     // Enviar una respuesta al cliente
     res.status(200).json({
       code: 1,
-      message: 'Book Deleted Successfully'
+      message: 'Group Deleted Successfully'
     });
 
   } catch (error) {
     console.error(error);
     res.status(500).json({
       code: -100,
-      message: 'Ha ocurrido un error al eliminar el libro'
+      message: 'An error occurred while deleting the group'
     });
   }
 };
