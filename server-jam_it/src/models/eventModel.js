@@ -10,7 +10,7 @@ const Event = sequelize.define('Event', {
         primaryKey: true,
         autoIncrement: true
     },
-    venue_id: {
+    id_venue: {
         type: DataTypes.INTEGER(8),
         allowNull: false,
         references: {
@@ -20,7 +20,7 @@ const Event = sequelize.define('Event', {
     onUpdate: 'CASCADE',
     onDelete: 'NO ACTION'
     },
-    application_id: {
+    id_application: {
         type: DataTypes.INTEGER(8),
         allowNull: true,
         references: {
@@ -69,8 +69,8 @@ const Event = sequelize.define('Event', {
 });
 
 // Relaciones entre Event, Application, y Venue
-// Event.belongsTo(Venue, { foreignKey: 'venue_id' });
-// Event.belongsTo(Application, { foreignKey: 'application_id' });
+// Event.belongsTo(Venue, { foreignKey: 'id_venue' });
+// Event.belongsTo(Application, { foreignKey: 'id_application' });
 
 
 export default Event;

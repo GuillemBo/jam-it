@@ -27,8 +27,15 @@ export const registerValidator = [
             }
             return true;
         }),
-    body("name").isString(),
-    body("surname").isString()
+    body("name")
+        .isString()
+        .withMessage("Name should be string"),
+    body("surname")
+        .isString()
+        .optional(),
+    body("role")
+        .isIn(['musician', 'venue'])
+        .withMessage('Invalid role provided')
 ]
 
 export const forgotPasswordValidator = [

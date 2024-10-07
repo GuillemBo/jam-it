@@ -8,7 +8,7 @@ const RecoveryToken = sequelize.define('RecoveryToken', {
     allowNull: false,
     unique: true
   },
-  user_id: {
+  id_user: {
     type: DataTypes.INTEGER(8).UNSIGNED,
     allowNull: false
   },
@@ -20,8 +20,8 @@ const RecoveryToken = sequelize.define('RecoveryToken', {
 }, {
   timestamps: false
 });
-User.hasMany(RecoveryToken, { foreignKey: 'user_id' });
-RecoveryToken.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(RecoveryToken, { foreignKey: 'id_user' });
+RecoveryToken.belongsTo(User, { foreignKey: 'id_user' });
 
 export default RecoveryToken;
 

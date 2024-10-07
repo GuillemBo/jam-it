@@ -7,10 +7,10 @@ import { idValidator } from '../validations/generic.Validation.js';
 const router = Router();
 
 // Rutas para obtener y modificar los datos de los eventos
-router.get('/', authenticateToken(['user', 'mod', 'admin']), getEvents);
-router.get('/:id_event', authenticateToken(['user', 'mod', 'admin']), idValidator, getEventById);
-router.post('/', authenticateToken(['user', 'mod', 'admin']), eventValidator, addEvent);
-router.patch('/:id_event', authenticateToken(['user', 'mod', 'admin']), idValidator, eventValidator, updateEvent);
-router.delete('/:id_event', authenticateToken(['user', 'mod', 'admin']), idValidator, deleteEvent);
+router.get('/', authenticateToken(['musician', 'venue']), getEvents);
+router.get('/:id', authenticateToken(['musician', 'venue']), idValidator, getEventById);
+router.post('/', authenticateToken(['venue']), eventValidator, addEvent);
+router.patch('/:id', authenticateToken(['musician', 'venue']), idValidator, eventValidator, updateEvent);
+router.delete('/:id', authenticateToken(['venue']), idValidator, deleteEvent);
 
 export default router;

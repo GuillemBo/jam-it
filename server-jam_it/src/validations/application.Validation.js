@@ -2,15 +2,15 @@
 import { body, check } from 'express-validator';
 
 export const applicationValidator = [
-  // Validar el campo "group_id"
-  body('group_id')
+  // Validar el campo "id_group"
+  body('id_group')
     .exists()
     .withMessage('Group ID is required')
     .isInt({ min: 1 })
     .withMessage('Group ID must be a positive integer'),
 
-  // Validar el campo "event_id"
-  body('event_id')
+  // Validar el campo "id_event"
+  body('id_event')
     .exists()
     .withMessage('Event ID is required')
     .isInt({ min: 1 })

@@ -1,6 +1,6 @@
 import Event from '../models/eventModel.js';
-import Group from '../models/eventModel.js';
-import Application from '../models/eventModel.js';
+import Group from '../models/groupModel.js';
+import Application from '../models/applicationModel.js';
 import { validationResult } from 'express-validator';
 
 
@@ -13,10 +13,10 @@ export const createApplication = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
       }
   
-      const { group_id, event_id, titulodeloquehago, descriptiondeloquehago } = req.body;
+      const { id_group, id_event, titulodeloquehago, descriptiondeloquehago } = req.body;
       let newApplication;
       try {
-        newApplication = await Application.create({ group_id, event_id, titulodeloquehago, descriptiondeloquehago, status: 'pending' });
+        newApplication = await Application.create({ id_group, id_event, titulodeloquehago, descriptiondeloquehago, status: 'pending' });
       } catch (error) {
         // Si hay un error de duplicación de clave única (por ejemplo, título duplicado)
         if (error.name === 'SequelizeUniqueConstraintError') {

@@ -63,10 +63,10 @@ export const createGroup = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { user_id, name } = req.body;
+    const { id_user, name } = req.body;
     let newGroup;
     try {
-      newGroup = await Group.create({ user_id, name });
+      newGroup = await Group.create({ id_user, name });
     } catch (error) {
       // Si hay un error de duplicación de clave única (por ejemplo, título duplicado)
       if (error.name === 'SequelizeUniqueConstraintError') {
@@ -121,7 +121,7 @@ export const updateGroup = async (req, res) => {
       });
     }
 
-    group.name = title;
+    group.name = name;
 
     await group.save();
 

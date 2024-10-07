@@ -8,7 +8,7 @@ const Venue = sequelize.define('Venue', {
       primaryKey: true,
       autoIncrement: true
   },
-  user_id: {
+  id_user: {
       type: DataTypes.INTEGER(8).UNSIGNED,
       allowNull: false,
       references: {
@@ -37,6 +37,6 @@ const Venue = sequelize.define('Venue', {
 });
 
 // Relación entre User y Venue
-Venue.belongsTo(User, { foreignKey: 'user_id' });
+Venue.belongsTo(User, { foreignKey: 'id_user' });
 
 export default Venue;

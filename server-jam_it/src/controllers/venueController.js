@@ -31,7 +31,7 @@ export const getVenueById = async (req, res) => {
     const { id } = req.params;
 
     // Buscar un usuario por su ID en la base de datos
-    const venue = await Book.findByPk(id);
+    const venue = await Venue.findByPk(id);
     if (!venue) {
       return res.status(404).json({
         code: -6,
@@ -63,10 +63,10 @@ export const createVenue = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { user_id, title, address, capacity } = req.body;
+    const { id_user, title, address, capacity } = req.body;
     let newVenue;
     try {
-      newVenue = await Venue.create({ user_id, title, address, capacity });
+      newVenue = await Venue.create({ id_user, title, address, capacity });
     } catch (error) {
       // Si hay un error de duplicación de clave única (por ejemplo, título duplicado)
       if (error.name === 'SequelizeUniqueConstraintError') {

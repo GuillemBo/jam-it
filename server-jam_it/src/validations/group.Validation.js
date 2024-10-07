@@ -2,8 +2,8 @@ import { body, check } from 'express-validator';
 
 // Validación para crear o actualizar un grupo
 export const groupValidator = [
-  // Validar el campo "user_id"
-  body('user_id')
+  // Validar el campo "id_user"
+  body('id_user')
     .exists()
     .withMessage('User ID is required')
     .isInt({ min: 1 })

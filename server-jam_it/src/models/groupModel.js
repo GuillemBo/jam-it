@@ -8,7 +8,7 @@ const Group = sequelize.define('Group', {
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    id_user: {
         type: DataTypes.INTEGER(8).UNSIGNED,
         allowNull: false,
         references: {
@@ -28,6 +28,6 @@ const Group = sequelize.define('Group', {
 });
 
 // Relación entre User y Group
-// Group.belongsTo(User, { foreignKey: 'user_id' });
+// Group.belongsTo(User, { foreignKey: 'id_user' });
 
 export default Group;

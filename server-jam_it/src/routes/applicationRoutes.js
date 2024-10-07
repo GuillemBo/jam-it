@@ -14,19 +14,10 @@ const router = Router();
 
 // Rutas para manejar las aplicaciones (inscripciones) de grupos a eventos
 
-// Obtener todas las aplicaciones
-router.get('/', authenticateToken(['mod', 'admin']), getApplications);
-
-// Obtener una aplicación por ID
-router.get('/:id', authenticateToken(['user', 'mod', 'admin']), applicationIdValidator, getApplicationById);
-
-// Crear una nueva aplicación (grupo se inscribe a un evento)
-router.post('/', authenticateToken(['user']), applicationValidator, createApplication);
-
-// Actualizar el estado de una aplicación
-router.patch('/:id/status', authenticateToken(['mod', 'admin']), applicationIdValidator, applicationStatusValidator, updateApplicationStatus);
-
-// Eliminar una aplicación
-router.delete('/:id', authenticateToken(['admin']), applicationIdValidator, deleteApplication);
+router.get('/', authenticateToken(['musician', 'venue']), getApplications);
+router.get('/:id', authenticateToken(['musician', 'venue']), applicationIdValidator, getApplicationById);
+router.post('/', authenticateToken(['musician']), applicationValidator, createApplication);
+router.patch('/:id/status', authenticateToken(['musician', 'venue']), applicationIdValidator, applicationStatusValidator, updateApplicationStatus);
+router.delete('/:id', authenticateToken(['musician', 'venue']), applicationIdValidator, deleteApplication);
 
 export default router;

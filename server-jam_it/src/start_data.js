@@ -9,26 +9,26 @@ const insertInitialUserData = async () => {
       email: 'ismael.academy@gmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Ismael',
-      role: ['user']
+      role: ['musician']
     }, 
     {
       email: 'laura@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Laura',
-      role: ['user']
+      role: ['venue']
     },
     {
       email: 'maria@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
       name: 'Maria',
       surname: 'kale',
-      role: ['mod', 'admin']
+      role: ['musician']
     },
     {
       email: 'mod@hotmail.com',
       password: '$2b$10$tXrqo7VdSPCLAsIUhrVsYejYeMt9FLo9J4OchgCKwuDvpeDK6Xf1q', //pass: ismael123
-      name: 'Moderador',
-      role: ['admin']
+      name: 'John',
+      role: ['venue']
     },
     {
       email: 'admin@hotmail.com',
@@ -42,9 +42,9 @@ const insertInitialUserData = async () => {
   await User.bulkCreate(userData, { ignoreDuplicates: true });
   
   const groupData = [
-    { name: 'Rock Band', user_id: 1 },
-    { name: 'Jazz Ensemble', user_id: 2 },
-    { name: 'Folk Band', user_id: 3 },  
+    { name: 'Rock Band', id_user: 1 },
+    { name: 'Jazz Ensemble', id_user: 2 },
+    { name: 'Folk Band', id_user: 3 },  
   ];
   // Insertar datos con opción ignoreDuplicates
   await Group.bulkCreate(groupData, { ignoreDuplicates: true });

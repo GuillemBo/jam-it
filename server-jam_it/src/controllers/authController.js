@@ -145,7 +145,7 @@ export const forgotPassword = async (req, res) => {
     let resetToken = crypto.randomBytes(32).toString("hex");
 
     await new RecoveryToken({
-      user_id: user.id_user,
+      id_user: user.id_user,
       token: resetToken,
       created_at: Date.now(),
     }).save();
@@ -211,7 +211,7 @@ export const changePassword = async (req, res) => {
     } 
 
     // Buscar un usuario por su ID en la base de datos
-    const user = await User.findOne({ where: { id_user: token_row.user_id } });
+    const user = await User.findOne({ where: { id_user: token_row.id_user } });
     if (!user) {
       return res.status(404).json({
         code: -10,
@@ -226,7 +226,7 @@ export const changePassword = async (req, res) => {
     //Elimino el token
     await RecoveryToken.destroy({
       where: {
-        user_id: token_row.user_id
+        id_user: token_row.id_user
       }
     })
 

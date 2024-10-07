@@ -25,7 +25,7 @@ export const venueValidator = [
         .isInt({ min: 1 })
         .withMessage("Capacity should be a positive integer"),
 
-    check('user_id')
+    check('id_user')
         .exists()
         .withMessage('User ID is required')
         .isInt()

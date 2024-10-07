@@ -1,7 +1,7 @@
 import { body } from 'express-validator';
 
 export const eventValidator = [
-    body("venue_id")
+    body("id_venue")
         .exists()
         .withMessage("Venue ID is required")
         .isInt({ min: 1 })

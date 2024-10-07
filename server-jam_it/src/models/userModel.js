@@ -22,17 +22,17 @@ const User = sequelize.define('User', {
   role: {
     type: DataTypes.ENUM('musician', 'venue'),
     allowNull: false,
-    get() {
-      const rawValue = this.getDataValue('role');
-      if (!rawValue) {
-        console.log('Valor de role es undefined o null');
-        return [];
-      }
-      return rawValue.split(',');
-    },
-    set(value) {
-      this.setDataValue('role', value.join(','));
-    }
+    // get() {
+    //   const rawValue = this.getDataValue('role');
+    //   if (!rawValue) {
+    //     console.log('Valor de role es undefined o null');
+    //     return [];
+    //   }
+    //   return rawValue.split(',');
+    // },
+    // set(value) {
+    //   this.setDataValue('role', value.join(','));
+    // }
   },
   created_at: {
     type: DataTypes.DATE,

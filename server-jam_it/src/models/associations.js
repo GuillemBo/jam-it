@@ -6,10 +6,10 @@ import Venue from './venueModel.js';
 import User from './userModel.js';
 
 // Relaciones
-Event.belongsTo(Venue, { foreignKey: 'venue_id' });
-Event.belongsTo(Application, { foreignKey: 'application_id' });
+Event.belongsTo(Venue, { foreignKey: 'id_venue' });
+Event.belongsTo(Application, { foreignKey: 'id_application' });
 
-Application.belongsTo(Event, { foreignKey: 'event_id' });
-Application.belongsTo(Group, { foreignKey: 'group_id' });
+Application.belongsTo(Event, { foreignKey: 'id_event' });
+Application.belongsTo(Group, { foreignKey: 'id_group' });
 
-Group.belongsTo(User, { foreignKey: 'user_id' }); // Asegúrate de importar User si es necesario
+Group.belongsTo(User, { foreignKey: 'id_user' }); // Asegúrate de importar User si es necesario

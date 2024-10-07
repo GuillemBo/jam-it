@@ -9,7 +9,7 @@ const Application = sequelize.define('Application', {
         primaryKey: true,
         autoIncrement: true
     },
-    event_id: {
+    id_event: {
         type: DataTypes.INTEGER(8),
         allowNull: true,
         references: {
@@ -17,7 +17,7 @@ const Application = sequelize.define('Application', {
             key: 'id_event'
         }
     },
-    group_id: {
+    id_group: {
         type: DataTypes.INTEGER(8),
         allowNull: true,
         references: {
@@ -30,7 +30,7 @@ const Application = sequelize.define('Application', {
         allowNull: false
     },
     descriptiondeloquehago: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(200),
         allowNull: false
     },
     status: {
@@ -43,7 +43,7 @@ const Application = sequelize.define('Application', {
 });
 
 // Relaciones entre Application, Event, y Group
-// Application.belongsTo(Group, { foreignKey: 'group_id' });
-// Application.belongsTo(Event, { foreignKey: 'event_id' });
+// Application.belongsTo(Group, { foreignKey: 'id_group' });
+// Application.belongsTo(Event, { foreignKey: 'id_event' });
 
 export default Application;

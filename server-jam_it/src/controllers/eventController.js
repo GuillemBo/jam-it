@@ -16,17 +16,38 @@ export const getEvents = async (req, res) => {
 // Obtener un evento por ID
 export const getEventById = async (req, res) => {
     try {
+        const errors = validationResult(req);
+    
+        // Si hay errores de validación, responde con un estado 400 Bad Request
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
+    
         const { id } = req.params;
+    
+        // Buscar un usuario por su ID en la base de datos
         const event = await Event.findByPk(id);
         if (!event) {
-            return res.status(404).json({ message: 'Evento no encontrado' });
+          return res.status(404).json({
+            code: -6,
+            message: `No event found with ID: ${id}`
+          });
         }
-        res.status(200).json(event);
-    } catch (error) {
-        console.error("Error al obtener el evento:", error);
-        res.status(500).json({ message: 'Error al obtener el evento' });
-    }
-};
+    
+        // Enviar una respuesta al cliente
+        res.status(200).json({
+          code: 1,
+          message: 'Event retrieved successfully',
+          data: event
+        });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({
+          code: -100,
+          message: 'An error occurred while retrieving the event'
+        });
+      }
+    };
 
 // Crear un nuevo evento
 export const addEvent = async (req, res) => {
@@ -36,11 +57,11 @@ export const addEvent = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { venue_id, application_id, f_ini, f_end, name, description, payment, event_type, date_end_bid, price } = req.body;
+        const { id_venue, id_application, f_ini, f_end, name, description, payment, event_type, date_end_bid, price } = req.body;
         
         const newEvent = await Event.create({
-            venue_id,
-            application_id,
+            id_venue,
+            id_application,
             f_ini,
             f_end,
             name,
@@ -51,7 +72,11 @@ export const addEvent = async (req, res) => {
             price
         });
 
-        res.status(201).json(newEvent);
+        res.status(201).json({
+            code: 1,
+            message: 'Event Created Successfully',
+            data: newEvent
+          });;
     } catch (error) {
         console.error("Error al crear el evento:", error);
         res.status(500).json({ message: 'Error al crear el evento' });
@@ -73,10 +98,10 @@ export const updateEvent = async (req, res) => {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { venue_id, application_id, f_ini, f_end, name, description, payment, event_type, date_end_bid, price } = req.body;
+        const { id_venue, id_application, f_ini, f_end, name, description, payment, event_type, date_end_bid, price } = req.body;
         
-        event.venue_id = venue_id || event.venue_id;
-        event.application_id = application_id || event.application_id;
+        event.id_venue = id_venue || event.id_venue;
+        event.id_application = id_application || event.id_application;
         event.f_ini = f_ini || event.f_ini;
         event.f_end = f_end || event.f_end;
         event.name = name || event.name;
@@ -87,7 +112,11 @@ export const updateEvent = async (req, res) => {
         event.price = price || event.price;
 
         await event.save();
-        res.status(200).json(event);
+        res.status(200).json({
+            code: 1,
+            message: 'Event Updated Successfully',
+            data: event
+          });;
     } catch (error) {
         console.error("Error al actualizar el evento:", error);
         res.status(500).json({ message: 'Error al actualizar el evento' });
