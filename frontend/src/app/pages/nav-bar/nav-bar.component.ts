@@ -1,28 +1,23 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { Dropdown } from 'flowbite';
-
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../shared/services/auth.service';
+import { RouterModule } from '@angular/router';
+import Cookies from 'js-cookie';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements AfterViewInit {
-  isCollapsed = true; // Controlador del estado del dropdown
+export class NavBarComponent implements OnInit {
+  constructor(private authService: AuthService) {}
 
-  constructor() {}
-
-  ngAfterViewInit(): void {
-    // Inicializa el dropdown después de que Angular haya completado la inicialización del componente
-    const dropdownElement = document.getElementById('user-dropdown');
-    if (dropdownElement) {
-      new Dropdown(dropdownElement);  // Aquí inicializas el Dropdown con Flowbite
-    }
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
-
-  toggleCollapse(): void {
-    // Alterna el estado de visibilidad del dropdown
-    this.isCollapsed = !this.isCollapsed;
+  
+  ngOnInit(): void {
+    console.log(this.isLoggedIn())
+    console.log(Cookies.get('token')); 
   }
 }
