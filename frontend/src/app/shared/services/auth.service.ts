@@ -13,14 +13,26 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
+  
+  constructor(private http: HttpClient, private router: Router) {}
+  
+  private apiUrl = 'http://localhost:3000/auth';  // URL del backend
   private readonly TOKEN_COOKIE_NAME = 'token';  // Nombre del token en las cookies
 
-  constructor(private http: HttpClient) {}
-
-  private apiUrl = 'https://http://localhost:3000/auth/register';  // URL del backend
-
   register(credentials: { name: string ,email: string, password: string, role: string }): Observable<any> {
-    return this.http.post(this.apiUrl, credentials);  // Enviar POST al backend con los datos del formulario
+    return this.http.post(`${this.apiUrl}/register`, credentials);  // Enviar POST al backend con los datos del formulario
+  }
+
+  login(credentials: { email: string, password: string}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials)
+  }
+  // Función para guardar el token en las cookies
+  saveToken(token: string): void {
+    Cookies.set(this.TOKEN_COOKIE_NAME, token, { expires: 7 }); // Guarda el token por 7 días
+  }
+  logout(): void {
+    Cookies.remove(this.TOKEN_COOKIE_NAME); // Eliminar el token
+    this.router.navigate(['/login']); // Redirigir al login después de hacer logout
   }
 
   // Función para verificar si el usuario está logueado
