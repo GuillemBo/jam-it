@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit{
   errorMessage: string
   roles = [{role: 'musician'}, {role: 'venue'}]
   logInForm: FormGroup = this.fb.group({})
+  isAuthenticated: boolean = false;
+  userData: any = null;
+  isLoggedIn: boolean;
 
   constructor (private fb: FormBuilder, private _route: ActivatedRoute, private authService: AuthService, private router: Router) {
     this.logInForm = this.fb.group({
@@ -26,38 +29,55 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.registerRole = this._route.snapshot.queryParamMap.get('role') 
+    this.registerRole = this._route.snapshot.queryParamMap.get('role')
+    this.checkAuthentication();
+    this.authService.isLoggedIn().subscribe({
+      next: (loggedIn) => {
+        this.isLoggedIn = loggedIn;// Forzar la detección de cambios aquí
+      },
+      error: () => {
+        this.isLoggedIn = false;
+      }
+    });
   }
 
   onSubmit(): void {
     if (this.logInForm.valid) {
-      // Si el formulario es válido, obtenemos los datos
       const formData = this.logInForm.value;
       console.log(formData)
 
       // Llamada al servicio para enviar el POST al backend
-      this.authService.login(formData).subscribe(
-        response => {
+      this.authService.login(formData).subscribe({
+        next: (response) => {
           console.log('Login exitoso', response);
-          // Aquí puedes redirigir o hacer lo que necesites después de login exitoso
-          const token = response.token;  // Asegúrate que el backend devuelve un token en la respuesta
-          
-          if (token) {
-            this.authService.saveToken(token);  // Guardamos el token en las cookies
-            this.redirectUser();  // Redirigimos al usuario según el rol
-          } else {
-            console.error('Token no recibido en la respuesta');
-          }
+          this.checkAuthentication();
+          this.router.navigate(['/']);
         },
-        error => {
+        error: (error) => {
           console.error('Error al enviar el formulario', error);
           this.errorMessage = error.error.message
         }
-      );
+    });
     } else {
       console.log('Formulario inválido');
     }
   }
+
+  checkAuthentication(): void {
+    this.authService.verifyAuth().subscribe({
+      next: (response) => {
+        console.log('Usuario autenticado', response);
+        this.isAuthenticated = true;
+        this.userData = response.user;  // Aquí guardamos la info del usuario
+        // this.redirectUser()
+      },
+      error: (error) => {
+        console.log('Usuario no autenticado', error);
+        this.isAuthenticated = false;
+      }
+    });
+  }
+  
   
   redirectUser(): void {
     if (this.registerRole) {

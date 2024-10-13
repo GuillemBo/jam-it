@@ -8,6 +8,7 @@ import { validationResult } from 'express-validator';
 import { serialize } from 'cookie';
 // Creación de funciones personalizadas
 import { esPar, contraseniasCoinciden } from '../utils/utils.js';
+import { decode } from 'punycode';
 
 const clietURL = process.env.CLIENT_URL;
 
@@ -280,4 +281,42 @@ export const logout = async (req, res) => {
     code: 0,
     message: 'Logged out - Delete Token',
   });
+}
+
+export const verifyAuth = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res.status(401).json({
+        message: 'No token found, user not authenticated',
+        data: null,
+        error: true
+      });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        console.log('Error al verificar el token:', err);  // Log del error
+        return res.status(401).json({ 
+          message: 'Token no válido o ha expirado.',          
+          data: null,
+          error: true 
+        });
+      }
+
+      res.status(200).json({ 
+        message: 'Autenticación válida',         
+        data: decoded,  // Aquí devuelves el usuario decodificado en "data"
+        error: false 
+      });
+    });
+
+  } catch (error) {
+    return res.status(401).json({
+      message: 'Invalid or expired token, user not authenticated',
+      data: null,
+      error: true
+    })
+  }
 }
