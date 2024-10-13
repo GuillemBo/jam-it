@@ -29,10 +29,12 @@ export class AuthService {
 
   login(credentials: { email: string, password: string}): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials, { withCredentials: true })
-  }
-
-  verifyAuth(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/verify-auth`, { withCredentials: true });
+    .pipe(
+      map(response => {
+        this.isLoggedInSubject.next(true);  // Actualiza el estado cuando el login es exitoso
+        return response;
+      })
+    );
   }
 
 
@@ -41,21 +43,28 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
       .pipe(
         map(response => {
-          // Aquí puedes manejar la respuesta si el backend devuelve algo
-          console.log('Logout exitoso', response);
+          this.isLoggedInSubject.next(false);  // Actualiza el estado cuando se cierra sesión
           return response;
         })
       );
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.http.get<{ message: string, data: any, error?: boolean }>(`${this.apiUrl}/verify-auth`, { withCredentials: true })
+  checkAuthStatus(): void {
+    this.http.get<{ message: string, data: any, error?: boolean }>(`${this.apiUrl}/verify-auth`, { withCredentials: true })
       .pipe(
         map(response => {
           // Si la respuesta no tiene errores, significa que el token es válido
+          console.log(response)
           return response && response.data && !response.error;
         })
-      );
+      ).subscribe({
+        next: (loggedIn: boolean) => {
+          this.isLoggedInSubject.next(loggedIn); // Actualiza el BehaviorSubject
+        },
+        error: () => {
+          this.isLoggedInSubject.next(false);
+        }
+      });
   }
 
   // Puedes agregar una función para obtener el rol del usuario desde el token si es necesario

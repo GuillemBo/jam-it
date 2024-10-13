@@ -18,16 +18,9 @@ export class NavBarComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // Suscribirse a isLoggedIn y actualizar la variable
-    this.authService.isLoggedIn().subscribe({
-      next: (loggedIn) => {
-        this.isLoggedIn = loggedIn;
-        console.log('Estado de autenticación:', loggedIn);
-      },
-      error: (error) => {
-        console.log('Error al verificar autenticación:', error);
-        this.isLoggedIn = false;
-      }
+    // Suscribirse al observable isLoggedIn$ para estar al tanto de los cambios
+    this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
     });
   }
 
@@ -35,9 +28,6 @@ export class NavBarComponent implements OnInit {
     this.authService.logout().subscribe({
       next: (response) => {
         console.log('Sesión cerrada exitosamente:', response);
-        // Actualiza el estado de autenticación
-        this.isLoggedIn = false;
-
         // Redirige al usuario a la página de inicio de sesión u otra página
         this.router.navigate(['/login']);
       },

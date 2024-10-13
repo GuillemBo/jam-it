@@ -30,15 +30,6 @@ export class LoginComponent implements OnInit{
 
   ngOnInit(): void {
     this.registerRole = this._route.snapshot.queryParamMap.get('role')
-    this.checkAuthentication();
-    this.authService.isLoggedIn().subscribe({
-      next: (loggedIn) => {
-        this.isLoggedIn = loggedIn;// Forzar la detección de cambios aquí
-      },
-      error: () => {
-        this.isLoggedIn = false;
-      }
-    });
   }
 
   onSubmit(): void {
@@ -50,7 +41,6 @@ export class LoginComponent implements OnInit{
       this.authService.login(formData).subscribe({
         next: (response) => {
           console.log('Login exitoso', response);
-          this.checkAuthentication();
           this.router.navigate(['/']);
         },
         error: (error) => {
@@ -61,21 +51,6 @@ export class LoginComponent implements OnInit{
     } else {
       console.log('Formulario inválido');
     }
-  }
-
-  checkAuthentication(): void {
-    this.authService.verifyAuth().subscribe({
-      next: (response) => {
-        console.log('Usuario autenticado', response);
-        this.isAuthenticated = true;
-        this.userData = response.user;  // Aquí guardamos la info del usuario
-        // this.redirectUser()
-      },
-      error: (error) => {
-        console.log('Usuario no autenticado', error);
-        this.isAuthenticated = false;
-      }
-    });
   }
   
   
