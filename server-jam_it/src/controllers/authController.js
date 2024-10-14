@@ -38,7 +38,7 @@ export const register = async (req, res) => {
     await newUser.save();
 
     // Generar un token de acceso y lo guardo en un token seguro (httpOnly)
-    const accessToken = jwt.sign({ id_user: newUser.id_user, name: newUser.name }, process.env.JWT_SECRET);
+    const accessToken = jwt.sign({ id_user: newUser.id_user, name: newUser.name, role: newUser.role }, process.env.JWT_SECRET);
     const token = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -92,7 +92,7 @@ export const login = async (req, res) => {
     }
 
     // Generar un token de acceso y lo guardo en un token seguro (httpOnly)
-    const accessToken = jwt.sign({ id_user: user.id_user, name: user.name }, process.env.JWT_SECRET);
+    const accessToken = jwt.sign({ id_user: user.id_user, name: user.name, role: user.role }, process.env.JWT_SECRET);
     const token = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -111,6 +111,7 @@ export const login = async (req, res) => {
           name: user.name,
           surname: user.surname,
           email: user.email,
+          role: user.role // Incluimos el rol en la respuesta
         } 
       }
     });
@@ -307,7 +308,11 @@ export const verifyAuth = async (req, res) => {
 
       res.status(200).json({ 
         message: 'Autenticación válida',         
-        data: decoded,  // Aquí devuelves el usuario decodificado en "data"
+        data: {
+          id_user: decoded.id_user,
+          name: decoded.name,
+          role: decoded.role, // Incluimos el rol aquí
+        },
         error: false 
       });
     });

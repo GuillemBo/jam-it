@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit} from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import Cookies from 'js-cookie';
@@ -9,9 +9,10 @@ import Cookies from 'js-cookie';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit{
 
   isLoggedIn: boolean = false;
+  userRole: string | null = null;
 
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -22,7 +23,14 @@ export class NavBarComponent implements OnInit {
     this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
     });
+
+      // Suscribirse al rol del usuario
+    this.authService.userRole$.subscribe((role: string | null) => {
+    this.userRole = role;
+    console.log("Rol del usuario:", this.userRole);
+  });
   }
+
 
   logout() {
     this.authService.logout().subscribe({

@@ -35,13 +35,18 @@ export class LoginComponent implements OnInit{
   onSubmit(): void {
     if (this.logInForm.valid) {
       const formData = this.logInForm.value;
-      console.log(formData)
 
       // Llamada al servicio para enviar el POST al backend
       this.authService.login(formData).subscribe({
         next: (response) => {
           console.log('Login exitoso', response);
-          this.router.navigate(['/']);
+
+          const userRole = response.data.user.role;
+
+          // Actualiza el rol en el BehaviorSubject
+          this.authService.updateUserRole(userRole);
+
+          this.authService.redirectUser(userRole);
         },
         error: (error) => {
           console.error('Error al enviar el formulario', error);
@@ -54,20 +59,6 @@ export class LoginComponent implements OnInit{
   }
   
   
-  redirectUser(): void {
-    if (this.registerRole) {
-      // Si tenemos un rol en los parámetros de la URL, lo redirigimos a la ruta adecuada
-      if (this.registerRole === 'musician') {
-        this.router.navigate(['/musician-dashboard']);  // Redirigir al dashboard del músico
-      } else if (this.registerRole === 'venue') {
-        this.router.navigate(['/venue-dashboard']);  // Redirigir al dashboard del lugar
-      }
-    } else {
-      // Si no hay rol en los query params, redirigimos a la página principal o a un dashboard genérico
-      this.router.navigate(['/dashboard']);
-    }
-  }
-
   get email(){
     return this.logInForm.get('email')
   }

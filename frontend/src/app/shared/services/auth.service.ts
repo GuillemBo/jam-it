@@ -17,6 +17,10 @@ export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
+  private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
+
+
 
   constructor(private http: HttpClient, private router: Router) {}
   
@@ -53,34 +57,45 @@ export class AuthService {
     this.http.get<{ message: string, data: any, error?: boolean }>(`${this.apiUrl}/verify-auth`, { withCredentials: true })
       .pipe(
         map(response => {
-          // Si la respuesta no tiene errores, significa que el token es válido
-          console.log(response)
-          return response && response.data && !response.error;
+          if (response && response.data && !response.error) {
+            // Si la autenticación es válida, devuelve el estado de loggedIn y el rol
+            return { loggedIn: true, role: response.data.role };  // Incluye el rol aquí
+          } else {
+            return { loggedIn: false, role: null };  // No autenticado
+          }
         })
       ).subscribe({
-        next: (loggedIn: boolean) => {
-          this.isLoggedInSubject.next(loggedIn); // Actualiza el BehaviorSubject
+        next: (authStatus: { loggedIn: boolean, role: string | null }) => {
+          this.isLoggedInSubject.next(authStatus.loggedIn);  // Actualiza el estado de autenticación
+          this.userRoleSubject.next(authStatus.role);  // Actualiza el estado del rol
+
+          if (authStatus.loggedIn) {
+            this.redirectUser(authStatus.role);  // Redirigir si está autenticado
+          }
         },
         error: () => {
           this.isLoggedInSubject.next(false);
+          this.userRoleSubject.next(null);  // Limpia el rol en caso de error
         }
       });
   }
+  
 
-  // Puedes agregar una función para obtener el rol del usuario desde el token si es necesario
-  getUserRole(): string | null {
-    const token = Cookies.get(this.TOKEN_COOKIE_NAME);
-    if (!token) {
-      return null;
-    }
-
-    try {
-      const decodedToken: any = jwtDecode(token);
-      return decodedToken.role;  // Asumiendo que el rol está en el token decodificado
-    } catch (error) {
-      console.error('Error al obtener el rol del token', error);
-      return null;
+  redirectUser(role: string | null): void {
+    if (role) {
+      if (role === 'musician') {
+        this.router.navigate(['/musician']);
+      } else if (role === 'venue') {
+        this.router.navigate(['/venue']);
+      }
+    } else {
+      this.router.navigate(['/dashboard']);
     }
   }
+
+    // Método para actualizar el rol del usuario en el BehaviorSubject
+    updateUserRole(role: string | null): void {
+      this.userRoleSubject.next(role);
+    }
   
 }
