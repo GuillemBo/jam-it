@@ -29,6 +29,7 @@ export class NavBarComponent implements OnInit{
     this.userRole = role;
     console.log("Rol del usuario:", this.userRole);
   });
+
   }
 
 

@@ -1,12 +1,12 @@
 <section class="bg-white dark:bg-gray-900">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
         <div class="grid md:grid-cols-2 gap-8">
-            <a
+            <a [routerLink]="['/create-group']"
                 class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
                 <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Create a new band</h2>
                 <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">you can create a group in order to apply to events</p>
             </a>
-            <a
+            <a [routerLink]="['/group']"
                 class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
                 <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Manage your bands</h2>
                 <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">you can manage your bands here in order to modify them</p>
@@ -22,28 +22,5 @@
                 <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">you can manage your events here</p>
             </a>
         </div>
-    </div>
-</section>
-
-<section class="bg-white dark:bg-gray-900">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
-        <h1 class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-8">Available events to apply
-        </h1>
-        @for (event of eventsToApply; track $index) {
-        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-8 mb-4">
-            <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{event.name}}</h1>
-            <div class="grid md:grid-cols-2">
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">{{event.description}}</p>
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">Payment {{event.payment}}€</p>
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">Start on - {{event.f_ini | date:'dd MMMM y'}}</p>
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">End on - {{event.f_end | date:'dd MMMM y'}}</p>
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">Last time to apply - {{event.date_end_bid | date:'dd MMMM y'}}</p>
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">Entrance fee - {{event.price}}€</p>
-            </div>
-            <div class="flex justify-end">
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Apply</button>
-            </div>
-        </div>
-        }
     </div>
 </section>

@@ -8,6 +8,18 @@ const Group = sequelize.define('Group', {
         primaryKey: true,
         autoIncrement: true
     },
+    musicians: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    description: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    genre: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
     id_user: {
         type: DataTypes.INTEGER(8).UNSIGNED,
         allowNull: false,

@@ -16,7 +16,9 @@ export class EventService {
       space: null,
       group: {
         name: 'capros',
-        musicians:[]
+        musicians: 'bill, john',
+        description: 'band of jazz',
+        genre: 'jazz'
       },
       date: new Date()
     },
@@ -27,7 +29,9 @@ export class EventService {
       space: null,
       group: {
         name: 'blue band',
-        musicians:[]
+        musicians: 'Joe, maria',
+        description: 'band of blues',
+        genre: 'blues'
       },
       date: new Date()
     }];

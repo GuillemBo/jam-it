@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 import { EventService } from '../../shared/services/event.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { CreateGroupFormComponent } from './create-group-form/create-group-form.component';
 
 @Component({
   selector: 'app-musician-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, CreateGroupFormComponent],
   templateUrl: './musician-view.component.html',
   styleUrl: './musician-view.component.scss'
 })
 export class MusicianViewComponent {
 
-  eventsToApply = this._eventService.getApplyEvents();
+  showForm: boolean = false;  // Controla si el formulario está visible o no
 
-  constructor (private _eventService: EventService){}
-
-
+  toggleForm(): void {
+    this.showForm = !this.showForm;  // Cambia entre true y false
+  }
 }
+

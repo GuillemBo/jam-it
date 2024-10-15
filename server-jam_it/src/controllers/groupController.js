@@ -63,10 +63,16 @@ export const createGroup = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { id_user, name } = req.body;
+    const { id_user, name, description, musicians, genre } = req.body;
     let newGroup;
     try {
-      newGroup = await Group.create({ id_user, name });
+      newGroup = await Group.create({ 
+        id_user,
+        name,
+        description: description || null,
+        musicians: musicians || null,
+        genre: genre || null 
+      });
     } catch (error) {
       // Si hay un error de duplicación de clave única (por ejemplo, título duplicado)
       if (error.name === 'SequelizeUniqueConstraintError') {

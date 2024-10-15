@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';  // Importación moderna
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 
@@ -20,12 +17,14 @@ export class AuthService {
   private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
 
+  private userIdSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  public userId$: Observable<string | null> = this.userIdSubject.asObservable();
+
 
 
   constructor(private http: HttpClient, private router: Router) {}
   
   private apiUrl = 'http://localhost:3000/auth';
-  private readonly TOKEN_COOKIE_NAME = 'token';  // Nombre del token en las cookies
 
   register(credentials: { name: string ,email: string, password: string, role: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, credentials,{ withCredentials: true }); 
@@ -59,15 +58,16 @@ export class AuthService {
         map(response => {
           if (response && response.data && !response.error) {
             // Si la autenticación es válida, devuelve el estado de loggedIn y el rol
-            return { loggedIn: true, role: response.data.role };  // Incluye el rol aquí
+            return { loggedIn: true, role: response.data.role, userId: response.data.id_user };  // Incluye el rol aquí
           } else {
-            return { loggedIn: false, role: null };  // No autenticado
+            return { loggedIn: false, role: null, userId: null };  // No autenticado
           }
         })
       ).subscribe({
-        next: (authStatus: { loggedIn: boolean, role: string | null }) => {
+        next: (authStatus: { loggedIn: boolean, role: string | null, userId: string | null }) => {
           this.isLoggedInSubject.next(authStatus.loggedIn);  // Actualiza el estado de autenticación
-          this.userRoleSubject.next(authStatus.role);  // Actualiza el estado del rol
+          this.userRoleSubject.next(authStatus.role); // Actualiza el estado del rol
+          this.userIdSubject.next(authStatus.userId); 
 
           if (authStatus.loggedIn) {
             this.redirectUser(authStatus.role);  // Redirigir si está autenticado
@@ -75,7 +75,8 @@ export class AuthService {
         },
         error: () => {
           this.isLoggedInSubject.next(false);
-          this.userRoleSubject.next(null);  // Limpia el rol en caso de error
+          this.userRoleSubject.next(null);
+          this.userIdSubject.next(null);
         }
       });
   }
