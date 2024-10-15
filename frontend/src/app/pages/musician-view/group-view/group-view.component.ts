@@ -15,6 +15,7 @@ export class GroupViewComponent implements OnInit {
 
   eventsToApply = this._eventService.getApplyEvents();
   userId: string | null = null;
+  groups: any[] = [];
 
   constructor (private _eventService: EventService, private groupService: GroupService, private authService: AuthService){}
 
@@ -23,16 +24,15 @@ export class GroupViewComponent implements OnInit {
       this.userId = userId;
       console.log("id user:", this.userId);
     });
+    this.getGroupsByUserId()
   }
 
 
   getGroupsByUserId() {
     this.groupService.getGroupsByUserId().subscribe({
       next: (response) => {
-        console.log(`Grupos con el id ${this.userId}:`, response);
-        if (response.userId == this.userId){
-          response
-        }
+        this.groups = response.data.filter(groups => groups.id_user == this.userId)
+        console.log(`Grupos con el id ${this.userId}:`, this.groups);
       },
       error: (err) => {
         console.log('Error al buscar los grupos:', err);

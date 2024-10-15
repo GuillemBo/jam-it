@@ -41,13 +41,13 @@ const insertInitialUserData = async () => {
   // Para actualizar todas las filas: updateOnDuplicate: Object.keys(User.rawAttributes)
   await User.bulkCreate(userData, { ignoreDuplicates: true });
   
-  const groupData = [
-    { name: 'Rock Band', id_user: 1 },
-    { name: 'Jazz Ensemble', id_user: 2 },
-    { name: 'Folk Band', id_user: 3 },  
-  ];
-  // Insertar datos con opción ignoreDuplicates
-  await Group.bulkCreate(groupData, { ignoreDuplicates: true });
+  // const groupData = [
+  //   { name: 'Rock Band', id_user: 1 },
+  //   { name: 'Jazz Ensemble', id_user: 2 },
+  //   { name: 'Folk Band', id_user: 3 },  
+  // ];
+  // // Insertar datos con opción ignoreDuplicates
+  // await Group.bulkCreate(groupData, { ignoreDuplicates: true });
 }
 
 export { insertInitialUserData };

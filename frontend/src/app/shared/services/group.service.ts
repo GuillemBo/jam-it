@@ -13,7 +13,7 @@ export class GroupService {
   private apiUrl = 'http://localhost:3000/group';
 
   getGroupsByUserId(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`);
+    return this.http.get<any>(`${this.apiUrl}`, {withCredentials: true});
   }
 
 }
