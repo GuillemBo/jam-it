@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import Cookies from 'js-cookie';
@@ -9,13 +9,14 @@ import Cookies from 'js-cookie';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements OnInit{
+export class NavBarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
   userRole: string | null = null;
+  eventOrGroup: string | null = null
 
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -24,11 +25,17 @@ export class NavBarComponent implements OnInit{
       this.isLoggedIn = loggedIn;
     });
 
-      // Suscribirse al rol del usuario
+    // Suscribirse al rol del usuario
     this.authService.userRole$.subscribe((role: string | null) => {
-    this.userRole = role;
-    console.log("Rol del usuario:", this.userRole);
-  });
+      this.userRole = role;
+      console.log("Rol del usuario:", this.userRole);
+
+      if (this.userRole == 'musician') {
+        this.eventOrGroup = 'group'
+      } else if (this.userRole == 'venue') {
+        this.eventOrGroup = 'space'
+      }
+    });
 
   }
 

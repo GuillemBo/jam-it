@@ -48,9 +48,7 @@ const User = sequelize.define('User', {
   tableName: 'users',
   timestamps: false,
 
-  // timestamps: true, // Activa la creación automática de createdAt y updatedAt
-  // updatedAt: 'updated_at',
-  // createdAt: 'created_at'  /////CODIGO ANTIGUO.
+  
 });
 
 export default User;

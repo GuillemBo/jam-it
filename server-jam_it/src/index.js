@@ -9,6 +9,7 @@ import testRoutes from './routes/testRoutes.js';
 import venueRoutes from './routes/venueRoutes.js';
 import groupRoutes from './routes/groupRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
+import groupMusicianRoutes from './routes/groupMusicianRoutes.js';
 import { testConnection } from './db.js';
 import dotenv from 'dotenv';
 import { insertInitialUserData } from './start_data.js';
@@ -48,6 +49,7 @@ app.use('/venue', venueRoutes)
 app.use('/test', testRoutes);
 app.use('/event', eventRoutes);
 app.use('/group', groupRoutes);
+app.use('/group-musician', groupMusicianRoutes)
 
 // Iniciar el servidor
 app.listen(3000, () => {

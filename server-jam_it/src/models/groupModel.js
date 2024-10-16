@@ -39,7 +39,5 @@ const Group = sequelize.define('Group', {
     timestamps: false
 });
 
-// Relación entre User y Group
-// Group.belongsTo(User, { foreignKey: 'id_user' });
 
 export default Group;

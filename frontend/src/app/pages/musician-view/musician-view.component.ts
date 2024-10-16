@@ -13,10 +13,8 @@ import { CreateGroupFormComponent } from './create-group-form/create-group-form.
 })
 export class MusicianViewComponent {
 
-  showForm: boolean = false;  // Controla si el formulario está visible o no
 
-  toggleForm(): void {
-    this.showForm = !this.showForm;  // Cambia entre true y false
-  }
+
+
 }
 

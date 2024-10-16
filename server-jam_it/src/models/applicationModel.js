@@ -42,8 +42,5 @@ const Application = sequelize.define('Application', {
     timestamps: false
 });
 
-// Relaciones entre Application, Event, y Group
-// Application.belongsTo(Group, { foreignKey: 'id_group' });
-// Application.belongsTo(Event, { foreignKey: 'id_event' });
 
 export default Application;
