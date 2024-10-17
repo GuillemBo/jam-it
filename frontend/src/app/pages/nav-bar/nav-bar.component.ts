@@ -33,7 +33,7 @@ export class NavBarComponent implements OnInit {
       if (this.userRole == 'musician') {
         this.eventOrGroup = 'group'
       } else if (this.userRole == 'venue') {
-        this.eventOrGroup = 'space'
+        this.eventOrGroup = 'venue-view'
       }
     });
 

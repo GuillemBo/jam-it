@@ -54,7 +54,7 @@ export const eventValidator = [
         .isISO8601()
         .withMessage("Bid end date should be a valid ISO 8601 date")
         .custom((value, { req }) => {
-            if (new Date(value) <= new Date(req.body.f_ini)) {
+            if (new Date(value) >= new Date(req.body.f_ini)) {
                 throw new Error("Bid end date must be before the event start date");
             }
             return true;

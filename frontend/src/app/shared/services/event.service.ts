@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
 import { ApplyEvent, Event } from '../models/event.interface';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  constructor() { }
+  constructor(private http: HttpClient, private router: Router) {}
 
+  private apiUrl = 'http://localhost:3000/event';
+
+  getEventsByVenueId(id_venue: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id_venue}`, {withCredentials: true});
+  }
+
+  //Ejemplos de eventos para aplicar y para mostrar
   getEvents(): Event[] {
     return [{
       title: 'jam in raval',

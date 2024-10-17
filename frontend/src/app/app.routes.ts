@@ -8,6 +8,8 @@ import { GroupViewComponent } from './pages/musician-view/group-view/group-view.
 import { CreateGroupFormComponent } from './pages/musician-view/create-group-form/create-group-form.component';
 import { CreateVenueFormComponent } from './pages/space-view/create-venue-form/create-venue-form.component';
 import { VenueViewComponent } from './pages/space-view/venue-view/venue-view.component';
+import { CreateEventComponent } from './pages/space-view/create-event/create-event.component';
+import { EventViewComponent } from './pages/space-view/event-view/event-view.component';
 
 export const routes: Routes = [
 
@@ -17,6 +19,8 @@ export const routes: Routes = [
     { path: 'create-venue', component: CreateVenueFormComponent},
     { path: 'venue-view', component: VenueViewComponent},
     { path: 'create-group', component: CreateGroupFormComponent },
+    { path: 'create-event', component: CreateEventComponent },
+    { path: 'event-view', component: EventViewComponent },
     { path: 'group', component: GroupViewComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent }

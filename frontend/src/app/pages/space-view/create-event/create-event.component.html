@@ -1,0 +1,62 @@
+
+<form [formGroup]="registerEventForm" (ngSubmit)="onSubmit()" class="max-w-sm mx-auto mt-10">
+    <div class="mb-5">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event Name</label>
+        <input type="text" formControlName="name" id="name" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    <div class="mb-5">
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event description</label>
+        <input type="text" formControlName="description" id="description" class="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    <div class="mb-5">
+        <label for="f_ini" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event starts at: date-time</label>
+        <input
+        formControlName="f_ini"
+        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        type="datetime-local"
+        id="f_ini"
+        name="initial-date"/>
+    </div>
+    <div class="mb-5">
+        <label for="f_end" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event ends at: date-time</label>
+        <input
+        formControlName="f_end"
+        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        type="datetime-local"
+        id="f_end"
+        name="end-date"/>
+    </div>
+    <div class="mb-5">
+        <label for="event_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type of event</label>
+        <input type="text" formControlName="event_type" id="event_type" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    <div class="mb-5">
+        <label for="date_end_bid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Final date-time to apply</label>
+        <input
+        formControlName="date_end_bid"
+        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        type="datetime-local"
+        id="date_end_bid"
+        name="meeting-time" />
+    </div>
+    <div class="mb-5">
+        <label for="payment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment for the group</label>
+        <input type="text" formControlName="payment" id="payment" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    <div class="mb-5">
+        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Entrance fee</label>
+        <input type="text" formControlName="price" id="price" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    
+    <div class="mb-5 max-w-sm mx-auto">
+        <label for="venues" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select your Venue (where you want to create the event)</label>
+        <select formControlName="id_venue" id="venues" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            @for (venue of venues; track $index) {
+                <option [value]="venue.id_venue">{{venue.title}}</option>
+            }
+        </select>
+    </div>
+    
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Event</button>
+</form>
+  

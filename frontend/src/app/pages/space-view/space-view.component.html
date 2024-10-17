@@ -9,8 +9,18 @@
             <a [routerLink]="['/venue-view']"
                 class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
                 <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Manage your venues</h2>
-                <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">you can manage your events here in order to modify them</p>
+                <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">you can manage your venues here in order to modify them</p>
             </a>
+            <a [routerLink]="['/create-event']"
+            class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
+            <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Create a new Event</h2>
+            <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">Create an event, the groups will be able to apply to your event</p>
+        </a>
+        <a [routerLink]="['/event-view']"
+        class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700">
+        <h2 class="text-gray-900 dark:text-white text-3xl font-extrabold mb-2">Manage your events</h2>
+        <p class="text-lg font-normal text-gray-500 dark:text-gray-400 mb-4">you can manage the events you have created</p>
+    </a>
         </div>
     </div>
 </section>
