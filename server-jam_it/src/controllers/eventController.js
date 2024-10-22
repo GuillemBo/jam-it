@@ -1,5 +1,8 @@
 // src/controllers/eventController.js
 import Event from '../models/eventModel.js';
+import Application from '../models/applicationModel.js';
+import Group from '../models/groupModel.js';
+import Venue from '../models/venueModel.js';
 import { validationResult } from 'express-validator';
 
 // Obtener todos los eventos
@@ -140,3 +143,35 @@ export const deleteEvent = async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar el evento' });
     }
 };
+
+
+// Obtener eventos y postulaciones por Venue
+export const getEventsWithApplications = async (req, res) => {
+
+    try {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        // Encuentra los eventos de la venue
+        const events = await Event.findAll({
+            include: [
+                {
+                    model: Application, // Incluir aplicaciones asociadas al evento
+                    include: [Group]    // Incluir el grupo relacionado con la aplicación
+                },
+                {
+                    model: Venue, // Incluir información del venue
+                    attributes: ['title', 'address'] // Selecciona las columnas que quieras del venue
+                }
+            ]
+        });
+
+        res.status(200).json(events);
+    } catch (error) {
+        console.error('Error al obtener eventos con aplicaciones:', error);
+        res.status(500).json({ error: 'Error al obtener eventos con aplicaciones' });
+
+    }
+}

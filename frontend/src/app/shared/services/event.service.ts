@@ -13,8 +13,12 @@ export class EventService {
 
   private apiUrl = 'http://localhost:3000/event';
 
-  getEventsByVenueId(id_venue: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id_venue}`, {withCredentials: true});
+  getEventsByVenueId(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}`, {withCredentials: true});
+  }
+
+  getEventWithApplications(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/applications`, {withCredentials: true});
   }
 
   //Ejemplos de eventos para aplicar y para mostrar

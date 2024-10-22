@@ -1,15 +1,43 @@
-<!-- <section class="bg-white dark:bg-gray-900">
+<section class="bg-white dark:bg-gray-900">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
-        <h1 class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-8">Your Groups as an owner
+        <h1 class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-8">Your Events
         </h1>
         @for (venue of venues; track $index) {
-        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-8 mb-4">
-            <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{venue.title}}</h1>
-            <div class="grid md:grid-cols">
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">Adress: {{venue.address}}</p>
-                <p class="text-lg text-gray-500 dark:text-gray-400 ">Capacity: {{venue.capacity}}</p>
-            </div>
-        </div>
+        <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{venue.title}}</h1>
+            @if (venue.events && venue.events.length > 0) {
+                @for (event of venue.events; track $index){
+                <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-8 mb-4">
+                    <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{event.name}}</h1>
+                    <div class="grid md:grid-cols">
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Event starts: {{event.f_ini | date:'dd MMMM y - hh:mm:ss'}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Event ends: {{event.f_end | date:'dd MMMM y - hh:mm:ss'}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Event description: {{event.description}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Event payment: {{event.payment}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Event type: {{event.type}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Application ends: {{event.date_end_bid | date:'dd MMMM y - hh:mm:ss'}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">Entrance price: {{event.price}}</p>
+                    </div>
+                </div>
+
+                    <!-- Mostrar aplicaciones asociadas al evento -->
+                    <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Applications</h4>
+                    <ul>
+                        @if (event.id_application) {
+                            @for (application of eventsWithApplications; track $index) {
+                                <li class="mb-2">
+                                    <strong>{{ application.Application.titulodeloquehago }}</strong>
+                                    <p>{{ application.Application.descriptiondeloquehago }}</p>
+                                    <p>Status: {{ application.Application.status }}</p>
+                                </li>
+                            }
+                        } @else {
+                            <p>No applications available for this event.</p>
+                        }
+                    </ul>
+                }
+            } @else {
+                <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">There are no events...</h1>
+            }
         }
     </div>
-</section> -->
+</section>

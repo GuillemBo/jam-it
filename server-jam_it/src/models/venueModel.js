@@ -36,7 +36,5 @@ const Venue = sequelize.define('Venue', {
   createdAt: 'created_at'
 });
 
-// Relación entre User y Venue
-Venue.belongsTo(User, { foreignKey: 'id_user' });
 
 export default Venue;

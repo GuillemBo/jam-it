@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 import User from './userModel.js';
+import GroupMusician from './groupMusicianModel.js';
 
 const Group = sequelize.define('Group', {
     id_group: {
@@ -39,5 +40,7 @@ const Group = sequelize.define('Group', {
     timestamps: false
 });
 
+Group.belongsToMany(User, { through: GroupMusician, foreignKey: 'id_group' })
+Group.belongsTo(User, { foreignKey: 'id_user' });
 
 export default Group;

@@ -15,38 +15,65 @@ export class EventViewComponent implements OnInit {
 
   userId: string | null = null;
   venues: any[] = [];
-  eventId: void;
+  eventId: void[];
   events: any[] = [];
+  eventsWithApplications: any[] = [];
 
   constructor (private authService: AuthService, private venueService:VenueService, private eventService:EventService ) {}
 
   ngOnInit(): void {
     this.authService.userId$.subscribe((userId: string | null) => {
       this.userId = userId;
-      console.log("id user:", this.userId);
     });
     this.getVenuesByUserId()
+    this.getEventsWithApplications();
+    
   }
 
 
-  getVenuesByUserId() {
+  getVenuesByUserId(): void {
     this.venueService.getVenuesByUserId().subscribe({
       next: (response) => {
-        this.venues = response.data.filter(venues => venues.id_user == this.userId)
+        this.venues = response.data.filter(venue => venue.id_user === this.userId);
         console.log(`Venues con el user id: ${this.userId}:`, this.venues);
-        this.eventId = this.venues.forEach((venue) => {(venue.id_venue)})
+  
+        // Realiza una única llamada para obtener todos los eventos
+        this.eventService.getEventsByVenueId().subscribe({
+          next: (allEvents) => {
+            // Filtrar los eventos que coincidan con los venues del usuario
+            this.events = allEvents.filter(event => 
+              this.venues.some(venue => venue.id_venue === event.id_venue)
+            );
+  
+            this.venues.forEach(venue => {
+              venue.events = allEvents.filter(event => event.id_venue === venue.id_venue);
+            });
+            
+            console.log('Eventos filtrados por venues del usuario:', this.events);
+          },
+          error: (err) => {
+            console.error('Error al obtener los eventos:', err);
+          }
+        });
       },
       error: (err) => {
-        console.log('Error al buscar las venues:', err);
+        console.error('Error al buscar las venues:', err);
       }
     });
   }
+  
 
-  // getEventsbyVenueId() {
-  //   this.eventService.getEventsByVenueId(this.eventId).subscribe({
-  //     next: (response) => {
-  //       this.events = response.data.filter
-  //     }
-  //   })
-  // }
+
+  getEventsWithApplications(): void {
+    this.eventService.getEventWithApplications().subscribe({
+      next: (response) => {
+        this.eventsWithApplications = response;
+        console.log('Eventos con aplicaciones:', this.eventsWithApplications);
+      },
+      error: (error) => {
+        console.error('Error al obtener eventos con aplicaciones:', error);
+      },
+    });
+  }
+
 }

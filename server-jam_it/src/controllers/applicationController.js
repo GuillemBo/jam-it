@@ -14,6 +14,18 @@ export const createApplication = async (req, res) => {
       }
   
       const { id_group, id_event, titulodeloquehago, descriptiondeloquehago } = req.body;
+
+          // Verificar si el grupo y el evento existen
+      const groupExists = await Group.findByPk(id_group);
+      const eventExists = await Event.findByPk(id_event);
+
+      if (!groupExists || !eventExists) {
+        return res.status(404).json({
+          code: -7,
+          message: 'Group or Event not found'
+        });
+      }
+
       let newApplication;
       try {
         newApplication = await Application.create({ id_group, id_event, titulodeloquehago, descriptiondeloquehago, status: 'pending' });
@@ -25,6 +37,11 @@ export const createApplication = async (req, res) => {
             message: 'Duplicate Application'
           });
         }
+        return res.status(500).json({
+          code: -100,
+          message: 'An error occurred while creating the application',
+          error: error.message
+        });
       }
   
       if (!newApplication) {

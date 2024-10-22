@@ -18,9 +18,14 @@ import './models/applicationModel.js'
 import './models/groupModel.js'
 import './models/venueModel.js'
 import './models/associations.js'
+import './models/userModel.js'
+import './models/groupMusicianModel.js';
+import setupAssociations from './models/associations.js';
 dotenv.config();
 
 const app = express();
+
+setupAssociations();
 
 // Configura el middleware CORS para que peuda recibir solicitudes de POST, PUT, DELETE, UPDATE, etc.
 app.use(cors({
