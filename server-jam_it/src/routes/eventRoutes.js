@@ -8,7 +8,7 @@ const router = Router();
 
 // Rutas para obtener y modificar los datos de los eventos
 router.get('/', authenticateToken(['musician', 'venue']), getEvents);
-router.get('/applications', authenticateToken(['venue']), getEventsWithApplications);
+router.get('/applications/:userId', authenticateToken(['venue']), getEventsWithApplications);
 router.get('/:id', authenticateToken(['musician', 'venue']), idValidator, getEventById);
 router.post('/', authenticateToken(['venue']), eventValidator, addEvent);
 router.patch('/:id', authenticateToken(['musician', 'venue']), idValidator, eventValidator, updateEvent);

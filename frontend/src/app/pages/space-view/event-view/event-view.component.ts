@@ -65,7 +65,7 @@ export class EventViewComponent implements OnInit {
 
 
   getEventsWithApplications(): void {
-    this.eventService.getEventWithApplications().subscribe({
+    this.eventService.getEventWithApplicationsByVenue(this.userId).subscribe({
       next: (response) => {
         this.eventsWithApplications = response;
         console.log('Eventos con aplicaciones:', this.eventsWithApplications);

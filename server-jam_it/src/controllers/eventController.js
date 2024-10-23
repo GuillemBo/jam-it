@@ -154,8 +154,23 @@ export const getEventsWithApplications = async (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+        
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required' });
+        }
+
+        const venues = await Venue.findAll({
+            where: { id_user: userId }
+        });
+
+        const venueIds = venues.map(venue => venue.id_venue);
+
+
         // Encuentra los eventos de la venue
         const events = await Event.findAll({
+            where: { id_venue: venueIds },
             include: [
                 {
                     model: Application, // Incluir aplicaciones asociadas al evento
