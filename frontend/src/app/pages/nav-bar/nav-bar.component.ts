@@ -14,6 +14,7 @@ export class NavBarComponent implements OnInit {
   isLoggedIn: boolean = false;
   userRole: string | null = null;
   eventOrGroup: string | null = null
+  eventCreateView: string | null = null
 
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -32,8 +33,10 @@ export class NavBarComponent implements OnInit {
 
       if (this.userRole == 'musician') {
         this.eventOrGroup = 'group'
+        this.eventCreateView = 'group'
       } else if (this.userRole == 'venue') {
         this.eventOrGroup = 'venue-view'
+        this.eventCreateView = 'create-event'
       }
     });
 

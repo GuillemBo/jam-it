@@ -17,7 +17,7 @@ const router = Router();
 router.get('/', authenticateToken(['musician', 'venue']), getApplications);
 router.get('/:id', authenticateToken(['musician', 'venue']), applicationIdValidator, getApplicationById);
 router.post('/', authenticateToken(['musician']), applicationValidator, createApplication);
-router.patch('/:id/status', authenticateToken(['musician', 'venue']), applicationIdValidator, applicationStatusValidator, updateApplicationStatus);
+router.put('/:id/status', authenticateToken(['venue']), applicationIdValidator, applicationStatusValidator, updateApplicationStatus);
 router.delete('/:id', authenticateToken(['musician', 'venue']), applicationIdValidator, deleteApplication);
 
 export default router;
