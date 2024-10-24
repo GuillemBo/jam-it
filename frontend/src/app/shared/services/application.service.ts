@@ -18,7 +18,7 @@ export class ApplicationService {
 
   // Servicio Angular: event.service.ts
   updateApplicationStatus(applicationId: string, status: string): Observable<any> {
-    return this.http.post(`http://localhost:3000/${applicationId}/status`, { status }, {withCredentials: true});
+    return this.http.put(`${this.apiUrl}/status/${applicationId}`, { status }, {withCredentials: true});
   }
 
 

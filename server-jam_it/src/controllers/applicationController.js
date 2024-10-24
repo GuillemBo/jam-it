@@ -2,6 +2,7 @@ import Event from '../models/eventModel.js';
 import Group from '../models/groupModel.js';
 import Application from '../models/applicationModel.js';
 import { validationResult } from 'express-validator';
+import { Op } from 'sequelize';
 
 
 export const createApplication = async (req, res) => {
@@ -147,6 +148,30 @@ export const createApplication = async (req, res) => {
           code: -3,
           message: `Application not found with ID: ${id}`
         });
+      }
+
+      const eventId = application.id_event; // Asumiendo que tienes un campo eventId en la aplicación
+      const event = await Event.findByPk(eventId); // Encuentra el evento relacionado
+
+      // Si el nuevo estado es "accepted"
+      if (status === 'accepted') {
+          // Actualiza el id_application del evento
+          event.id_application = id; // Establecer el id de la aplicación aceptada
+          await event.save();
+
+          // Rechazar todas las otras aplicaciones del mismo evento
+          await Application.update(
+              { status: 'rejected' },
+              { where: { id_event: eventId, id_application: { [Op.ne]: id } } } // Rechaza todas menos la aceptada
+          );
+      }
+
+      else if (status === 'rejected') {
+        // Si la aplicación rechazada es la aceptada, elimina el id_application del evento
+        if (event.id_application == id) {
+            event.id_application = null; // Limpia el id_application
+            await event.save();
+        }
       }
   
       application.status = status;

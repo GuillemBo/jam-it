@@ -18,17 +18,25 @@
                         </div>
 
                         <!-- Mostrar aplicaciones asociadas al evento -->
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Applications</h4>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-4">Applications:</h4>
                         <ul>
                             @if (eventsWithApplications && eventsWithApplications.length > 0) {
                                 @for (application of eventsWithApplications; track $index) {
                                     @if (application.id_event === event.id_event) { <!-- Suponiendo que las aplicaciones tienen un id_event -->
                                         @if (application.Applications && application.Applications.length > 0) {
                                             @for (app of application.Applications; track $index) {
-                                                <li class="mb-2">
+                                                <li class="mb-2 mt-5 bg-yellow-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-5">
                                                     <strong>{{ app.titulodeloquehago }}</strong>
                                                     <p>{{ app.descriptiondeloquehago }}</p>
                                                     <p>Status: {{ app.status }}</p>
+                                                    <div class="flex gap-2 mt-2">
+                                                        <button (click)="updateApplicationStatus(app.id_application, 'accepted')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                            Accept
+                                                        </button>
+                                                        <button (click)="updateApplicationStatus(app.id_application, 'rejected')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                            Reject
+                                                        </button>
+                                                    </div>
                                                 </li>
                                             }
                                         } 
