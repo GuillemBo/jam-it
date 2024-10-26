@@ -28,7 +28,13 @@
                                                 <li class="mb-2 mt-5 bg-yellow-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-5">
                                                     <strong>{{ app.titulodeloquehago }}</strong>
                                                     <p>{{ app.descriptiondeloquehago }}</p>
-                                                    <p>Status: {{ app.status }}</p>
+                                                    @if (app.status === 'pending') {
+                                                        <p>Status:</p><p class="text-yellow-200 font-bold">{{ app.status }}</p>
+                                                    } @else if (app.status === 'accepted') {
+                                                        <p>Status:</p><p class="text-green-400 font-bold">{{ app.status }}</p>
+                                                    } @else {
+                                                        <p>Status:</p><p class="text-red-600 font-bold">{{ app.status }}</p>
+                                                    }
                                                     <div class="flex gap-2 mt-2">
                                                         <button (click)="updateApplicationStatus(app.id_application, 'accepted')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                             Accept

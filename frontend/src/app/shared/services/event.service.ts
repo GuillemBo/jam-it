@@ -21,6 +21,10 @@ export class EventService {
     return this.http.get<any>(`${this.apiUrl}/applications/${userId}`, {withCredentials: true});
   }
 
+  getAllEvents(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}`, {withCredentials: true});
+  }
+
 
   //Ejemplos de eventos para aplicar y para mostrar
   getEvents(): Event[] {

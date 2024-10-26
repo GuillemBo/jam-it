@@ -39,27 +39,28 @@
             </div>
             @if (showGroupSelect[event.id_event]) {
             <div>
-                <form [formGroup]="applicationForm" (ngSubmit)="confirmApplication()">
+                <form [formGroup]="applicationForm" (ngSubmit)="confirmApplication()" class="w-1/3 grid gap-y-5">
                     <!-- Selección de grupo -->
-                    <select formControlName="id_group">
+                     <label for="group" class="block text-sm font-medium text-gray-900 dark:text-white">Selecciona un grupo</label>
+                    <select formControlName="id_group" id="group" class="bg-white text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       @for (group of groups; track $index) {<option [value]="group.id_group">{{ group.name }}</option>}
                     </select>
                     @if (applicationForm.get('id_group').invalid && applicationForm.get('id_group').touched) {
-                        <div>
+                        <div class="text-red-600">
                         Por favor selecciona un grupo.
                         </div>
                     }
                     <!-- Título de lo que hace -->
-                    <input type="text" formControlName="titulodeloquehago" placeholder="Título de lo que hago">
+                    <input type="text" formControlName="titulodeloquehago" placeholder="Título de lo que hago" class="block w-full p-2 text-gray-900 border  rounded-lg  text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @if (applicationForm.get('titulodeloquehago').invalid && applicationForm.get('titulodeloquehago').touched) {
-                        <div>
+                        <div class="text-red-600">
                         Este campo es obligatorio.
                         </div>
                     }
                     <!-- Descripción de lo que hace -->
-                    <input type="text" formControlName="descriptiondeloquehago" placeholder="Descripción de lo que hago">
+                    <input type="text" formControlName="descriptiondeloquehago" placeholder="Descripción de lo que hago" class="block w-full p-2 text-gray-900 border  rounded-lg  text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @if (applicationForm.get('descriptiondeloquehago').invalid && applicationForm.get('descriptiondeloquehago').touched) {
-                        <div>
+                        <div class="text-red-600">
                         Este campo es obligatorio.
                         </div>
                     }
