@@ -15,7 +15,7 @@ import { CreateVenueService } from '../../../shared/services/create-venue.servic
 export class CreateVenueFormComponent implements OnInit {
   registerVenueForm: FormGroup = this.fb.group({});
   errorMessage: string;
-  userId: string | null = null;
+  userId: number = null;
   
   constructor (private authService: AuthService, private _route: ActivatedRoute, private router: Router, private fb: FormBuilder, private createVenueService: CreateVenueService) {
     this.registerVenueForm = this.fb.group({
@@ -27,7 +27,7 @@ export class CreateVenueFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: string | null) => {
+    this.authService.userId$.subscribe((userId: number) => {
       this.userId = userId;
       console.log("id user:", this.userId);
     });

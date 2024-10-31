@@ -13,13 +13,13 @@ import { CommonModule } from '@angular/common';
 })
 export class VenueViewComponent {
 
-  userId: string | null = null;
+  userId: number = null;
   venues: any[] = [];
 
   constructor (private authService: AuthService, private venueService: VenueService){}
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: string | null) => {
+    this.authService.userId$.subscribe((userId: number) => {
       this.userId = userId;
       console.log("id user:", this.userId);
     });

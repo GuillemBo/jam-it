@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Venue, VenueResponse } from '../models/venue.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class VenueService {
 
   private apiUrl = 'http://localhost:3000/venue';
 
-  getVenuesByUserId(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`, {withCredentials: true});
+  getVenuesByUserId(): Observable<VenueResponse> {
+    return this.http.get<VenueResponse>(`${this.apiUrl}`, {withCredentials: true});
   }
 
 }

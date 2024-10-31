@@ -16,7 +16,7 @@ export class CreateGroupFormComponent implements OnInit {
 
   registerGroupForm: FormGroup = this.fb.group({});
   errorMessage: string;
-  userId: string | null = null;
+  userId: number = null;
   
   constructor (private authService: AuthService,private _route: ActivatedRoute, private router: Router, private fb: FormBuilder, private createGroupService: CreateGroupService) {
     this.registerGroupForm = this.fb.group({
@@ -29,7 +29,7 @@ export class CreateGroupFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: string | null) => {
+    this.authService.userId$.subscribe((userId: number) => {
       this.userId = userId;
       console.log("id user:", this.userId);
     });

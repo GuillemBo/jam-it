@@ -16,7 +16,7 @@ import { ApplicationService } from '../../../shared/services/application.service
 export class GroupViewComponent implements OnInit {
 
   eventsToApply: any[] = [];
-  userId: string | null = null;
+  userId: number = null;
   groups: any[] = [];
 
   applicationForm: FormGroup = this.fb.group({});
@@ -36,7 +36,7 @@ export class GroupViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: string | null) => {
+    this.authService.userId$.subscribe((userId: number) => {
       this.userId = userId;
       console.log("id user:", this.userId);
     });

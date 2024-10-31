@@ -14,11 +14,11 @@ export class AuthService {
   private isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-  public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
+  private userRoleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  public userRole$: Observable<string> = this.userRoleSubject.asObservable();
 
-  private userIdSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-  public userId$: Observable<string | null> = this.userIdSubject.asObservable();
+  private userIdSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public userId$: Observable<number> = this.userIdSubject.asObservable();
 
 
 
@@ -64,7 +64,7 @@ export class AuthService {
           }
         })
       ).subscribe({
-        next: (authStatus: { loggedIn: boolean, role: string | null, userId: string | null }) => {
+        next: (authStatus: { loggedIn: boolean, role: string, userId: number }) => {
           this.isLoggedInSubject.next(authStatus.loggedIn);  // Actualiza el estado de autenticación
           this.userRoleSubject.next(authStatus.role); // Actualiza el estado del rol
           this.userIdSubject.next(authStatus.userId); 
@@ -82,7 +82,7 @@ export class AuthService {
   }
   
 
-  redirectUser(role: string | null): void {
+  redirectUser(role: string): void {
     if (role) {
       if (role === 'musician') {
         this.router.navigate(['/musician']);
@@ -95,7 +95,7 @@ export class AuthService {
   }
 
     // Método para actualizar el rol del usuario en el BehaviorSubject
-    updateUserRole(role: string | null): void {
+    updateUserRole(role: string): void {
       this.userRoleSubject.next(role);
     }
   

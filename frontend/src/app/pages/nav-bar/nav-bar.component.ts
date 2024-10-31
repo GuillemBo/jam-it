@@ -12,9 +12,9 @@ import Cookies from 'js-cookie';
 export class NavBarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
-  userRole: string | null = null;
-  eventOrGroup: string | null = null
-  eventCreateView: string | null = null
+  userRole: string = null;
+  eventOrGroup: string = null
+  eventCreateView: string = null
 
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -27,7 +27,7 @@ export class NavBarComponent implements OnInit {
     });
 
     // Suscribirse al rol del usuario
-    this.authService.userRole$.subscribe((role: string | null) => {
+    this.authService.userRole$.subscribe((role: string) => {
       this.userRole = role;
       console.log("Rol del usuario:", this.userRole);
 

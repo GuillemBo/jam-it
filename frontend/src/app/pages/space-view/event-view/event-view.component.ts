@@ -17,7 +17,7 @@ import { catchError, throwError } from 'rxjs';
 })
 export class EventViewComponent implements OnInit {
 
-  userId: string | null = null;
+  userId: number = null;
   venues: any[] = [];
   eventId: void[];
   events: any[] = [];
@@ -26,7 +26,7 @@ export class EventViewComponent implements OnInit {
   constructor (private authService: AuthService, private venueService:VenueService, private eventService:EventService, private _applicationService: ApplicationService, private toastr: ToastrService ) {}
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: string | null) => {
+    this.authService.userId$.subscribe((userId: number) => {
       this.userId = userId;
     });
     this.getVenuesByUserId()
