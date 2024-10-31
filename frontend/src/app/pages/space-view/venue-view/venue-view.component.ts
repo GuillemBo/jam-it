@@ -3,6 +3,7 @@ import { EventService } from '../../../shared/services/event.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VenueService } from '../../../shared/services/venue.service';
 import { CommonModule } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-venue-view',
@@ -28,7 +29,7 @@ export class VenueViewComponent {
 
 
   getVenuesByUserId() {
-    this.venueService.getVenuesByUserId().subscribe({
+    this.venueService.getVenuesByUserId().pipe(take(1)).subscribe({
       next: (response) => {
         this.venues = response.data.filter(venues => venues.id_user == this.userId)
         console.log(`Venues con el id ${this.userId}:`, this.venues);
