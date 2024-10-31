@@ -2,43 +2,37 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import Cookies from 'js-cookie';
+import { RoleEnum } from '../../shared/models/roles.enum';
+import { CommonModule } from '@angular/common';
+import { RoutesEnum } from '../../shared/models/routes.enum';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent implements OnInit {
 
+  roleEnum = RoleEnum
+  routesEnum = RoutesEnum
   isLoggedIn: boolean = false;
-  userRole: string = null;
   eventOrGroup: string = null
   eventCreateView: string = null
+
+  isMenuOpen: boolean;
+
+  userRole$ = this.authService.userRole$
 
 
   constructor(private authService: AuthService, private router: Router) { }
 
 
   ngOnInit(): void {
-    // Suscribirse al observable isLoggedIn$ para estar al tanto de los cambios
     this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
     });
 
-    // Suscribirse al rol del usuario
-    this.authService.userRole$.subscribe((role: string) => {
-      this.userRole = role;
-      console.log("Rol del usuario:", this.userRole);
-
-      if (this.userRole == 'musician') {
-        this.eventOrGroup = 'group'
-        this.eventCreateView = 'group'
-      } else if (this.userRole == 'venue') {
-        this.eventOrGroup = 'venue-view'
-        this.eventCreateView = 'create-event'
-      }
-    });
 
   }
 
@@ -47,7 +41,6 @@ export class NavBarComponent implements OnInit {
     this.authService.logout().subscribe({
       next: (response) => {
         console.log('Sesión cerrada exitosamente:', response);
-        // Redirige al usuario a la página de inicio de sesión u otra página
         this.router.navigate(['/login']);
       },
       error: (err) => {
@@ -55,6 +48,4 @@ export class NavBarComponent implements OnInit {
       }
     });
   }
-
-
 }

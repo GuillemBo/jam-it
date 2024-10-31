@@ -3,7 +3,7 @@ import { EventService } from '../../../shared/services/event.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VenueService } from '../../../shared/services/venue.service';
 import { CommonModule } from '@angular/common';
-import { take } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-venue-view',
@@ -14,30 +14,19 @@ import { take } from 'rxjs';
 })
 export class VenueViewComponent {
 
-  userId: number = null;
-  venues: any[] = [];
+  userId$ = this._authService.userId$;
+  venues$ = this._authService.userId$.pipe(
+    filter(u => !!u),
+  switchMap(userId => this.venueService.getVenuesByUserId(userId))
 
-  constructor (private authService: AuthService, private venueService: VenueService){}
+  )
+
+  constructor (private _authService: AuthService, private venueService: VenueService){}
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: number) => {
-      this.userId = userId;
-      console.log("id user:", this.userId);
-    });
-    this.getVenuesByUserId()
+
   }
 
 
-  getVenuesByUserId() {
-    this.venueService.getVenuesByUserId().pipe(take(1)).subscribe({
-      next: (response) => {
-        this.venues = response.data.filter(venues => venues.id_user == this.userId)
-        console.log(`Venues con el id ${this.userId}:`, this.venues);
-      },
-      error: (err) => {
-        console.log('Error al buscar las venues:', err);
-      }
-    });
-  }
 
 }

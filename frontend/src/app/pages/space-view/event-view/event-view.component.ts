@@ -36,34 +36,34 @@ export class EventViewComponent implements OnInit {
 
 
   getVenuesByUserId(): void {
-    this.venueService.getVenuesByUserId().subscribe({
-      next: (response) => {
-        this.venues = response.data.filter(venue => venue.id_user === this.userId);
-        console.log(`Venues con el user id: ${this.userId}:`, this.venues);
+    // this.venueService.getVenuesByUserId().subscribe({
+    //   next: (response) => {
+    //     this.venues = response.data.filter(venue => venue.id_user === this.userId);
+    //     console.log(`Venues con el user id: ${this.userId}:`, this.venues);
   
-        // Realiza una única llamada para obtener todos los eventos
-        this.eventService.getEventsByVenueId().subscribe({
-          next: (allEvents) => {
-            // Filtrar los eventos que coincidan con los venues del usuario
-            this.events = allEvents.filter(event => 
-              this.venues.some(venue => venue.id_venue === event.id_venue)
-            );
+    //     // Realiza una única llamada para obtener todos los eventos
+    //     this.eventService.getEventsByVenueId().subscribe({
+    //       next: (allEvents) => {
+    //         // Filtrar los eventos que coincidan con los venues del usuario
+    //         this.events = allEvents.filter(event => 
+    //           this.venues.some(venue => venue.id_venue === event.id_venue)
+    //         );
   
-            this.venues.forEach(venue => {
-              venue.events = allEvents.filter(event => event.id_venue === venue.id_venue);
-            });
+    //         this.venues.forEach(venue => {
+    //           venue.events = allEvents.filter(event => event.id_venue === venue.id_venue);
+    //         });
             
-            console.log('Eventos filtrados por venues del usuario:', this.events);
-          },
-          error: (err) => {
-            console.error('Error al obtener los eventos:', err);
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Error al buscar las venues:', err);
-      }
-    });
+    //         console.log('Eventos filtrados por venues del usuario:', this.events);
+    //       },
+    //       error: (err) => {
+    //         console.error('Error al obtener los eventos:', err);
+    //       }
+    //     });
+    //   },
+    //   error: (err) => {
+    //     console.error('Error al buscar las venues:', err);
+    //   }
+    // });
   }
   
 

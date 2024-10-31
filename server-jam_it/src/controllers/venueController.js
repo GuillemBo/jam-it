@@ -176,3 +176,39 @@ export const deleteVenue = async (req, res) => {
     });
   }
 };
+
+export const getVenuesByUserId = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { userId } = req.params;
+
+    // Obtener venues del usuario junto con los eventos asociados
+    const venues = await Venue.findAll({
+      where: { id_user: userId },
+    });
+
+    if (!venues.length) {
+      return res.status(404).json({
+        code: -6,
+        message: `No venues found for user ID: ${userId}`
+      });
+    }
+
+    res.status(200).json({
+      code: 1,
+      message: 'Venues by user id retrieved successfully',
+      data: venues
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      code: -100,
+      message: 'An error occurred while retrieving Venues by user id'
+    });
+  }
+};

@@ -10,19 +10,20 @@ import { CreateVenueFormComponent } from './pages/space-view/create-venue-form/c
 import { VenueViewComponent } from './pages/space-view/venue-view/venue-view.component';
 import { CreateEventComponent } from './pages/space-view/create-event/create-event.component';
 import { EventViewComponent } from './pages/space-view/event-view/event-view.component';
+import { RoutesEnum } from './shared/models/routes.enum';
 
 export const routes: Routes = [
 
-    { path: '', component: HomeComponent },
-    { path: 'musician', component: MusicianViewComponent },
-    { path: 'venue', component: SpaceViewComponent },
-    { path: 'create-venue', component: CreateVenueFormComponent},
-    { path: 'venue-view', component: VenueViewComponent},
-    { path: 'create-group', component: CreateGroupFormComponent },
-    { path: 'create-event', component: CreateEventComponent },
-    { path: 'event-view', component: EventViewComponent },
-    { path: 'group', component: GroupViewComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent }
+    { path: RoutesEnum.HOME, component: HomeComponent },
+    { path: RoutesEnum.MUSICIAN, component: MusicianViewComponent },
+    { path: RoutesEnum.VENUE, component: SpaceViewComponent },
+    { path: RoutesEnum.CREATEVENUE, component: CreateVenueFormComponent},
+    { path: RoutesEnum.VENUEVIEW, component: VenueViewComponent},
+    { path: RoutesEnum.CREATEGROUP, component: CreateGroupFormComponent },
+    { path: RoutesEnum.CREATEVENT, component: CreateEventComponent },
+    { path: RoutesEnum.EVENTVIEW, component: EventViewComponent },
+    { path: RoutesEnum.GROUP, component: GroupViewComponent },
+    { path: RoutesEnum.LOGIN, component: LoginComponent },
+    { path: RoutesEnum.REGISTER, component: RegisterComponent }
 
 ];

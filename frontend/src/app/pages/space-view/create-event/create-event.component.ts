@@ -4,20 +4,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { CreateEventService } from '../../../shared/services/create-event.service';
 import { VenueService } from '../../../shared/services/venue.service';
+import { filter, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.scss'
 })
 export class CreateEventComponent implements OnInit {
   registerEventForm: FormGroup = this.fb.group({});
   errorMessage: string;
-  userId: number = null;
-  venues: any[] = [];
-event: any;
+  userId$ = this.authService.userId$;
+  venues$ = this.authService.userId$.pipe(
+    filter(u => !!u),
+    switchMap(userId => this.venueService.getVenuesByUserId(userId))
+  )
+  event: any;
   
   constructor (private authService: AuthService, private _route: ActivatedRoute, private router: Router, private fb: FormBuilder, private createEventService: CreateEventService, private venueService: VenueService) {
     this.registerEventForm = this.fb.group({
@@ -34,11 +39,6 @@ event: any;
   }
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: number) => {
-      this.userId = userId;
-      console.log("id user:", this.userId);
-    });
-    this.getVenuesByUserId()
   }
 
 
@@ -62,16 +62,5 @@ event: any;
     }
   }
 
-  getVenuesByUserId() {
-    this.venueService.getVenuesByUserId().subscribe({
-      next: (response) => {
-        this.venues = response.data.filter(venues => venues.id_user == this.userId)
-        console.log(`Venues con el id ${this.userId}:`, this.venues);
-      },
-      error: (err) => {
-        console.log('Error al buscar las venues:', err);
-      }
-    });
-  }
 }
 
