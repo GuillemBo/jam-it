@@ -40,7 +40,6 @@ const Group = sequelize.define('Group', {
     timestamps: false
 });
 
-Group.belongsToMany(User, { through: GroupMusician, foreignKey: 'id_group' })
-Group.belongsTo(User, { foreignKey: 'id_user' });
+
 
 export default Group;

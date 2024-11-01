@@ -1,4 +1,6 @@
 import Venue from '../models/venueModel.js';
+import Event from '../models/eventModel.js';
+import Application from '../models/applicationModel.js';
 import { validationResult } from 'express-validator';
 
 export const getVenues = async( req, res) => {
@@ -190,6 +192,20 @@ export const getVenuesByUserId = async (req, res) => {
     // Obtener venues del usuario junto con los eventos asociados
     const venues = await Venue.findAll({
       where: { id_user: userId },
+      include: [
+        {
+          model: Event,
+          as: 'events', // Asegúrate de que el alias coincide con el definido en la relación de los modelos
+          required: false, // Incluir también los venues sin eventos asociados
+          include: [
+            {
+              model: Application,
+              as: 'applications', // Asegúrate de que 'applications' sea el alias definido en la asociación de Event con Application
+              required: false
+            }
+          ]
+        }
+      ]
     });
 
     if (!venues.length) {

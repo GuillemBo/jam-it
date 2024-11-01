@@ -68,8 +68,6 @@ const Event = sequelize.define('Event', {
     timestamps: false
 });
 
-Event.hasMany(Application, { foreignKey: 'id_event' })
-Event.belongsTo(Venue, { foreignKey: 'id_venue' });
-Event.belongsTo(Application, { foreignKey: 'id_application' });
+
 
 export default Event;

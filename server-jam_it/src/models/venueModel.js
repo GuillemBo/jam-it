@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 import User from './userModel.js';
+import Event from './eventModel.js'
 
 const Venue = sequelize.define('Venue', {
   id_venue: {

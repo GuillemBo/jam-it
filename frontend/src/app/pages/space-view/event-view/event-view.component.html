@@ -1,7 +1,7 @@
 <section class="bg-white dark:bg-gray-900">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
         <h1 class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-8">Your Events</h1>
-        @for (venue of venues; track $index) {
+        @for (venue of venues$ | async; track $index) {
             <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{venue.title}}</h1>
             @if (venue.events && venue.events.length > 0) {
                 @for (event of venue.events; track $index){
@@ -17,46 +17,46 @@
                             <p class="text-lg text-gray-500 dark:text-gray-400 ">Entrance price: {{event.price}}</p>
                         </div>
 
-                        <!-- Mostrar aplicaciones asociadas al evento -->
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-4">Applications:</h4>
-                        <ul>
-                            @if (eventsWithApplications && eventsWithApplications.length > 0) {
-                                @for (application of eventsWithApplications; track $index) {
-                                    @if (application.id_event === event.id_event) { <!-- Suponiendo que las aplicaciones tienen un id_event -->
-                                        @if (application.Applications && application.Applications.length > 0) {
-                                            @for (app of application.Applications; track $index) {
-                                                <li class="mb-2 mt-5 bg-yellow-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-5">
-                                                    <strong>{{ app.titulodeloquehago }}</strong>
-                                                    <p>{{ app.descriptiondeloquehago }}</p>
-                                                    @if (app.status === 'pending') {
-                                                        <p>Status:</p><p class="text-yellow-200 font-bold">{{ app.status }}</p>
-                                                    } @else if (app.status === 'accepted') {
-                                                        <p>Status:</p><p class="text-green-400 font-bold">{{ app.status }}</p>
-                                                    } @else {
-                                                        <p>Status:</p><p class="text-red-600 font-bold">{{ app.status }}</p>
-                                                    }
-                                                    <div class="flex gap-2 mt-2">
-                                                        <button (click)="updateApplicationStatus(app.id_application, 'accepted')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                            Accept
-                                                        </button>
-                                                        <button (click)="updateApplicationStatus(app.id_application, 'rejected')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                            Reject
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            }
-                                        } 
-                                    }
-                                }
-                            } @else {
-                                <li>No applications available for this event.</li>
-                            }
-                        </ul>
+            <!-- Mostrar aplicaciones asociadas al evento -->
+            <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-4">Applications:</h4>
+            <ul>
+              @if (event.applications && event.applications.length > 0) {
+                @for (app of event.applications; track $index) {
+                  <li class="mb-2 mt-5 bg-yellow-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-5">
+                    <strong>{{ app.titulodeloquehago }}</strong>
+                    <p>{{ app.descriptiondeloquehago }}</p>
+                    
+                    <!-- Estado de la aplicación -->
+                    <p>Status:
+                      <span [ngClass]="{
+                        'text-yellow-300 font-bold': app.status === 'pending',
+                        'text-green-500 font-bold': app.status === 'accepted',
+                        'text-red-600 font-bold': app.status === 'rejected'
+                      }">{{ app.status }}</span>
+                    </p>
+
+                    <!-- Botones para actualizar el estado -->
+                    <div class="flex gap-2 mt-2">
+                      <button (click)="updateApplicationStatus(app.id_application, 'accepted')" 
+                              class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2">
+                        Accept
+                      </button>
+                      <button (click)="updateApplicationStatus(app.id_application, 'rejected')" 
+                              class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2">
+                        Reject
+                      </button>
                     </div>
+                  </li>
                 }
-            } @else {
-                <h1 class="text-gray-900 dark:text-white text-1xl md:text-2xl mb-2">There are no events for {{venue.title}}...</h1>
-            }
+              } @else {
+                <li>No applications available for this event.</li>
+              }
+            </ul>
+          </div>
         }
-    </div>
+      } @else {
+        <h1 class="text-gray-900 dark:text-white text-1xl md:text-2xl mb-2">There are no events for {{ venue.title }}...</h1>
+      }
+    }
+  </div>
 </section>
