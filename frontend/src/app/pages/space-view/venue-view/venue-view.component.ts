@@ -15,18 +15,19 @@ import { filter, switchMap, take } from 'rxjs';
 export class VenueViewComponent {
 
   userId$ = this._authService.userId$;
-  venues$ = this._authService.userId$.pipe(
-    filter(u => !!u),
-  switchMap(userId => this.venueService.getVenuesByUserId(userId))
+  venues$ = this._venueService.getUserVenues$()
 
-  )
-
-  constructor (private _authService: AuthService, private venueService: VenueService){}
+  constructor (private _authService: AuthService, private _venueService: VenueService){}
 
   ngOnInit(): void {
-
+    this.userId$.pipe(take(1)).subscribe(userId => {
+      this._venueService.loadVenuesByUserId(userId)
+    })
   }
 
+  getVenueById(id_venue: number) {
+    this._venueService.getVenueById$(id_venue).pipe(take(1)).subscribe({
+    })
 
-
+  }
 }

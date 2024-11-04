@@ -21,6 +21,7 @@
     "flowbite": "^2.5.2",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
+    "material-icons": "^1.13.12",
     "ngx-cookie-service": "^18.0.0",
     "ngx-toastr": "^19.0.0",
     "prettier-plugin-organize-attributes": "^1.0.0",

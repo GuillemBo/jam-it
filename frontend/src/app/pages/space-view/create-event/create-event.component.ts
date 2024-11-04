@@ -20,7 +20,7 @@ export class CreateEventComponent implements OnInit {
   userId$ = this.authService.userId$;
   venues$ = this.authService.userId$.pipe(
     filter(u => !!u),
-    switchMap(userId => this.venueService.getVenuesByUserId(userId))
+    switchMap(userId => this.venueService.getUserVenues$())
   )
   event: any;
   

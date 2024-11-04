@@ -35,6 +35,7 @@ export class AuthService {
     .pipe(
       map(response => {
         this.isLoggedInSubject.next(true);  // Actualiza el estado cuando el login es exitoso
+        this.checkAuthStatus()
         return response;
       })
     );
@@ -47,6 +48,7 @@ export class AuthService {
       .pipe(
         map(response => {
           this.isLoggedInSubject.next(false);  // Actualiza el estado cuando se cierra sesión
+          this.checkAuthStatus();
           return response;
         })
       );
@@ -65,6 +67,7 @@ export class AuthService {
         })
       ).subscribe({
         next: (authStatus: { loggedIn: boolean, role: string, userId: number }) => {
+          
           this.isLoggedInSubject.next(authStatus.loggedIn);  // Actualiza el estado de autenticación
           this.userRoleSubject.next(authStatus.role); // Actualiza el estado del rol
           this.userIdSubject.next(authStatus.userId); 

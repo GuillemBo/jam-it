@@ -10,7 +10,7 @@ const router = Router();
 // Rutas para obtener y modificar los datos de los usuarios
 router.get('/', authenticateToken(['musician', 'venue']), getVenues);
 router.get('/venuesByUserId/:userId', authenticateToken(['musician', 'venue']), getVenuesByUserId);
-// router.get('/:id', authenticateToken(['musician', 'venue']), idValidator, getVenueById);
+router.get('/:id', authenticateToken(['musician', 'venue']), idValidator, getVenueById);
 router.post('/', authenticateToken(['venue']), venueValidator, createVenue);
 router.patch('/:id', authenticateToken(['venue']), idValidator, venueValidator, updateVenue);
 router.delete('/:id', authenticateToken(['venue']), idValidator, deleteVenue);

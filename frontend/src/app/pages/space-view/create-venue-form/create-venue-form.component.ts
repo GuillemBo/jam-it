@@ -4,6 +4,7 @@ import { SpaceViewComponent } from '../space-view.component';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateVenueService } from '../../../shared/services/create-venue.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-venue-form',
@@ -17,7 +18,14 @@ export class CreateVenueFormComponent implements OnInit {
   errorMessage: string;
   userId: number = null;
   
-  constructor (private authService: AuthService, private _route: ActivatedRoute, private router: Router, private fb: FormBuilder, private createVenueService: CreateVenueService) {
+  constructor (private authService: AuthService,
+    private _route: ActivatedRoute, 
+    private router: Router, 
+    private fb: FormBuilder, 
+    private createVenueService: CreateVenueService,
+    private toastr: ToastrService
+  ) {
+
     this.registerVenueForm = this.fb.group({
       id_user: new FormControl ('', Validators.required),
       title: new FormControl ('', [Validators.required, Validators.minLength(5)]),
@@ -42,16 +50,18 @@ export class CreateVenueFormComponent implements OnInit {
       this.createVenueService.createVenue(formData).subscribe({
         next: (response) => {
           console.log('Venue creado', response);
-
+          this.toastr.success(`Venue has been created successfully`);
           this.router.navigate(['/']);
         },
         error: (error) => {
           console.error('Error al crear el venue', error);
           this.errorMessage = error.error.message
+          this.toastr.warning(`An error ocurred while creating the venue`);
         }
     });
     } else {
       console.log('Formulario inválido');
+      this.toastr.warning(`An error ocurred while creating the venue`);
     }
   }
 }

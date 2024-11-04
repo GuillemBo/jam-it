@@ -18,8 +18,14 @@
                         </div>
 
             <!-- Mostrar aplicaciones asociadas al evento -->
-            <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-4">Applications:</h4>
-            <ul>
+            <h4 (click)="toggleMenu(event.id_event)" class="text-xl font-bold text-gray-900 dark:text-white mb-2 mt-4 flex items-center cursor-pointer w-fit">Applications 
+              @if (isMenuOpen(event.id_event)) {
+                <span class="material-icons-outlined">keyboard_arrow_up</span>
+              } @else {
+                <span class="material-icons-outlined">keyboard_arrow_down</span>
+              }
+            </h4>
+            <ul id="applications" [class.hidden]="!isMenuOpen(event.id_event)">
               @if (event.applications && event.applications.length > 0) {
                 @for (app of event.applications; track $index) {
                   <li class="mb-2 mt-5 bg-yellow-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-5">
@@ -29,19 +35,19 @@
                     <!-- Estado de la aplicación -->
                     <p>Status:
                       <span [ngClass]="{
-                        'text-yellow-300 font-bold': app.status === 'pending',
-                        'text-green-500 font-bold': app.status === 'accepted',
-                        'text-red-600 font-bold': app.status === 'rejected'
+                        'text-yellow-300 font-bold': app.status === statusEnum.PENDING,
+                        'text-green-500 font-bold': app.status === statusEnum.ACCEPTED,
+                        'text-red-600 font-bold': app.status === statusEnum.REJECTED
                       }">{{ app.status }}</span>
                     </p>
 
                     <!-- Botones para actualizar el estado -->
                     <div class="flex gap-2 mt-2">
-                      <button (click)="updateApplicationStatus(app.id_application, 'accepted')" 
+                      <button (click)="updateApplicationStatus(app.id_application, statusEnum.ACCEPTED)" 
                               class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2">
                         Accept
                       </button>
-                      <button (click)="updateApplicationStatus(app.id_application, 'rejected')" 
+                      <button (click)="updateApplicationStatus(app.id_application, statusEnum.REJECTED)" 
                               class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2">
                         Reject
                       </button>

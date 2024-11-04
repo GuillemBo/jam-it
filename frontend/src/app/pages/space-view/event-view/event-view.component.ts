@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VenueService } from '../../../shared/services/venue.service';
-import { EventService } from '../../../shared/services/event.service';
 import { CommonModule, NgClass } from '@angular/common';
 import { ApplicationService } from '../../../shared/services/application.service';
-import { ToastrService } from 'ngx-toastr';
-import { catchError, filter, switchMap, throwError } from 'rxjs';
-
+import { take } from 'rxjs';
+import { StatusEnum } from '../../../shared/models/status.enum';
 
 @Component({
   selector: 'app-event-view',
@@ -17,38 +15,46 @@ import { catchError, filter, switchMap, throwError } from 'rxjs';
 })
 export class EventViewComponent implements OnInit {
 
-  userId$ = this._authService.userId$;
-  venues$ = this._authService.userId$.pipe(
-    filter(u => !!u),
-  switchMap(userId => this.venueService.getVenuesByUserId(userId))
-  )
+  statusEnum= StatusEnum;
 
-  constructor (private _authService: AuthService, private venueService:VenueService, private eventService:EventService, private _applicationService: ApplicationService, private toastr: ToastrService ) {}
+  userId$ = this._authService.userId$;
+  venues$ = this._venueService.getUserVenues$()
+
+  openedMenus: number[] = [];
+
+  constructor (private _authService: AuthService, 
+  private _venueService:VenueService, 
+  private _applicationService: ApplicationService) {}
 
   ngOnInit(): void {
-    
+    this.loadVenuesByUserId()
   }
 
+
   updateApplicationStatus(applicationId: string, status: string) {
-    this._applicationService.updateApplicationStatus(applicationId, status).pipe(
-      catchError(err => {
-        this.toastr.error('Error updating application status');
-        return throwError(() => err);
-      })
-    ).subscribe((response) => {
-      if (status === 'accepted') {
-      this.toastr.success(`Application has been ${status}`);
-      } else {
-        this.toastr.warning(`Application has been ${status}`);
-      }
-      // Aquí puedes actualizar el estado en la UI o volver a cargar los datos
-      this.refreshEventApplications(); // Vuelve a cargar los eventos y las aplicaciones (opcional)
+    this._applicationService.updateApplicationStatus(applicationId, status)
+  .pipe(take(1)     
+    ).subscribe(() => {
+      this.loadVenuesByUserId();
     });
   }
 
-  // Método opcional para refrescar los eventos con aplicaciones después de la actualización
-  refreshEventApplications() {
-    // Aquí podrías recargar los eventos o filtrar las aplicaciones directamente en la vista
+  loadVenuesByUserId():void {
+    this.userId$.pipe(take(1)).subscribe(userId => {
+      this._venueService.loadVenuesByUserId(userId)
+    })
+  }
+
+  toggleMenu(id: number): void {
+    if (this.isMenuOpen(id)){
+      this.openedMenus = this.openedMenus.filter(openedMenuId => openedMenuId !== id)
+    } else {
+      this.openedMenus.push(id)
+    }
+  }
+
+  isMenuOpen(id: number):boolean {
+    return this.openedMenus.findIndex(openedMenuId => openedMenuId === id) !== -1
   }
 
 }

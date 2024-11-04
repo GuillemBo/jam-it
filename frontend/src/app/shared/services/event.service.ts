@@ -4,22 +4,21 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Event } from '../models/event.interface'
 import { Venue } from '../models/venue.interface';
+import { EventState } from './event.state';
  
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  private _eventsList: BehaviorSubject<any> = new BehaviorSubject(null)
-  eventsList$ = this._eventsList.asObservable()
 
-  activeEvents$ = this.eventsList$.pipe(
+  activeEvents$ = this._eventState.getEventList$().pipe(
     filter(v => !!v),
     map(eventsList => eventsList.filter(event => !!event.id_application)),
     )
 
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private _eventState: EventState) {}
 
   private apiUrl = 'http://localhost:3000/event';
 
@@ -33,7 +32,7 @@ export class EventService {
 
   getAllEvents(): void {
      this.http.get<Event[]>(`${this.apiUrl}`, {withCredentials: true}).pipe(take(1)).subscribe(response => {
-      this._eventsList.next(response)
+      this._eventState.setEventsList(response) //Guardem el valor al event state
      });
   }
 
