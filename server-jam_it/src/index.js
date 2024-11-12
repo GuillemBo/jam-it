@@ -31,7 +31,7 @@ setupAssociations();
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:4200',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }));
 
 //header and populate req.cookies with an object keyed by the cookie names

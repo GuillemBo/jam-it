@@ -4,6 +4,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { VenueService } from '../../../shared/services/venue.service';
 import { CommonModule } from '@angular/common';
 import { filter, switchMap, take } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-venue-view',
@@ -17,7 +19,7 @@ export class VenueViewComponent {
   userId$ = this._authService.userId$;
   venues$ = this._venueService.getUserVenues$()
 
-  constructor (private _authService: AuthService, private _venueService: VenueService){}
+  constructor (private _authService: AuthService, private _venueService: VenueService, private _toastr: ToastrService, private router: Router){}
 
   ngOnInit(): void {
     this.userId$.pipe(take(1)).subscribe(userId => {
@@ -25,9 +27,20 @@ export class VenueViewComponent {
     })
   }
 
-  getVenueById(id_venue: number) {
-    this._venueService.getVenueById$(id_venue).pipe(take(1)).subscribe({
-    })
-
+  editVenue(id_venue: number): void {
+    this.router.navigate(['/venues/edit', id_venue]); // Redirige a la ruta de edición
   }
+
+  deleteVenue(id_venue: number): void {
+    if (confirm('seguro que quieres eliminar venue?') == true) {
+    this._venueService.deleteVenueById(id_venue).subscribe(data => {
+      console.log(data)
+      this._toastr.warning('El producto fue eliminado con éxito', 'Producto eliminado')
+      this.userId$.pipe(take(1)).subscribe(userId => {
+        this._venueService.loadVenuesByUserId(userId)
+      })
+    }
+  )}
+}
+
 }

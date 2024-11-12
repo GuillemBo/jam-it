@@ -18,6 +18,7 @@ export const routes: Routes = [
     { path: RoutesEnum.MUSICIAN, component: MusicianViewComponent },
     { path: RoutesEnum.VENUE, component: SpaceViewComponent },
     { path: RoutesEnum.CREATEVENUE, component: CreateVenueFormComponent},
+    { path: 'venues/edit/:id', component: CreateVenueFormComponent },
     { path: RoutesEnum.VENUEVIEW, component: VenueViewComponent},
     { path: RoutesEnum.CREATEGROUP, component: CreateGroupFormComponent },
     { path: RoutesEnum.CREATEVENT, component: CreateEventComponent },

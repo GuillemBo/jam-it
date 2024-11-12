@@ -38,4 +38,8 @@ export class VenueService {
     return this.http.get<VenueResponse>(`${this.apiUrl}/${id_venue}`, {withCredentials: true}).pipe(map(response => response.data))
   }
 
+  deleteVenueById(id_venue: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id_venue}`, {withCredentials: true})
+  }
+
 }
