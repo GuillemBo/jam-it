@@ -3,6 +3,7 @@ import { EventService } from '../../shared/services/event.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CreateGroupFormComponent } from './create-group-form/create-group-form.component';
+import { RoutesEnum } from '../../shared/models/routes.enum';
 
 @Component({
   selector: 'app-musician-view',
@@ -13,7 +14,7 @@ import { CreateGroupFormComponent } from './create-group-form/create-group-form.
 })
 export class MusicianViewComponent {
 
-
+  routesEnum = RoutesEnum;
 
 
 }

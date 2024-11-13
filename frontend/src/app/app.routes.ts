@@ -11,6 +11,7 @@ import { VenueViewComponent } from './pages/space-view/venue-view/venue-view.com
 import { CreateEventComponent } from './pages/space-view/create-event/create-event.component';
 import { EventViewComponent } from './pages/space-view/event-view/event-view.component';
 import { RoutesEnum } from './shared/models/routes.enum';
+import { MusicianEventViewComponent } from './pages/musician-view/musician-event-view/musician-event-view.component';
 
 export const routes: Routes = [
 
@@ -25,6 +26,8 @@ export const routes: Routes = [
     { path: RoutesEnum.EVENTVIEW, component: EventViewComponent },
     { path: RoutesEnum.GROUP, component: GroupViewComponent },
     { path: RoutesEnum.LOGIN, component: LoginComponent },
-    { path: RoutesEnum.REGISTER, component: RegisterComponent }
+    { path: RoutesEnum.REGISTER, component: RegisterComponent },
+    { path: RoutesEnum.MUSICIANEVENTVIEW, component: MusicianEventViewComponent }
+
 
 ];

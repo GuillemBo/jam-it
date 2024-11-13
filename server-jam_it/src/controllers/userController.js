@@ -29,6 +29,41 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const getUserById = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    // Si hay errores de validación, responde con un estado 400 Bad Request
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { id } = req.params;
+
+    // Buscar un usuario por su ID en la base de datos
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        code: -6,
+        message: `No user found with ID: ${id}`
+      });
+    }
+
+    // Enviar una respuesta al cliente
+    res.status(200).json({
+      code: 1,
+      message: 'User retrieved successfully',
+      data: user
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      code: -100,
+      message: 'An error occurred while retrieving the user'
+    });
+  }
+};
+
 
 // CODIGO PARA SUBIR FOTOS (POR SI QUIERO MAS ADELANTE)
 

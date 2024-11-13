@@ -7,3 +7,9 @@ export interface User {
     created_at: Date; // Fecha de creación del usuario
     // photo?: string; // Foto del usuario (opcional)
 }
+
+export interface UserResponse {
+    code: number;
+    message: string;
+    data: User[];
+}

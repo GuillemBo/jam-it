@@ -10,4 +10,5 @@ export enum RoutesEnum {
     GROUP = 'group',
     LOGIN = 'login',
     REGISTER = 'register',
+    MUSICIANEVENTVIEW = 'musician-evnet-view'
 }

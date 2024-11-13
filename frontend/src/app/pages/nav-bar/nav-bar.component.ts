@@ -5,6 +5,8 @@ import Cookies from 'js-cookie';
 import { RoleEnum } from '../../shared/models/roles.enum';
 import { CommonModule } from '@angular/common';
 import { RoutesEnum } from '../../shared/models/routes.enum';
+import { UserService } from '../../shared/services/user.service';
+import { filter, switchMap, take } from 'rxjs';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
@@ -23,17 +25,22 @@ export class NavBarComponent implements OnInit {
   isMenuOpen: boolean;
 
   userRole$ = this.authService.userRole$
+  userId$ = this._authService.userId$;
+  user$ = this.userId$.pipe(
+    filter(userId => !!userId), // Solo continua si hay un ID válido
+    switchMap(userId => this._userService.getUserById$(userId))
+  );
 
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private _userService: UserService, private _authService: AuthService) { }
 
 
   ngOnInit(): void {
     this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
-    });
-
-
+    });  
+    console.log(this.user$);
+    
   }
 
 
