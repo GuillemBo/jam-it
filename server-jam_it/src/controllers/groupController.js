@@ -1,4 +1,6 @@
 import Group from '../models/groupModel.js';
+import Application from '../models/applicationModel.js';
+import Event from '../models/eventModel.js';
 import { validationResult } from 'express-validator';
 
 export const getGroups = async( req, res ) => {
@@ -177,6 +179,59 @@ export const deleteGroup = async (req, res) => {
     res.status(500).json({
       code: -100,
       message: 'An error occurred while deleting the group'
+    });
+  }
+};
+
+export const getGroupsByUserId = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    const group = await Group.findAll({
+      where: { id_user: userId },
+      include: [
+        {
+          model: Application,
+          as: 'applications',
+          required: false,
+          include: [
+            {
+              model: Event,
+              as: 'events',
+              required: false
+            }
+          ]
+        }
+      ]
+    });
+
+    if (!group.length) {
+      return res.status(404).json({
+        code: -6,
+        message: `No groups found for user ID: ${userId}`
+      });
+    }
+
+    res.status(200).json({
+      code: 1,
+      message: 'Groups by user id retrieved successfully',
+      data: group
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      code: -100,
+      message: 'An error occurred while retrieving Groups by user id'
     });
   }
 };

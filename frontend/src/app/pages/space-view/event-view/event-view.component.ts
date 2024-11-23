@@ -28,6 +28,8 @@ export class EventViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadVenuesByUserId()
+    console.log(this.venues$);
+    
   }
 
 

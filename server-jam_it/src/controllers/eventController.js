@@ -190,3 +190,4 @@ export const getEventsWithApplications = async (req, res) => {
 
     }
 }
+

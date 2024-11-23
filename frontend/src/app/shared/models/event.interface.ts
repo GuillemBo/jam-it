@@ -14,4 +14,8 @@ export interface Event {
 }
 
 
-
+export interface EventResponse {
+    code: number;
+    message: string;
+    data: Event[];
+}
