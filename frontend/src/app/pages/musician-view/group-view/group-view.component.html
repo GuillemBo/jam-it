@@ -2,13 +2,17 @@
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
         <h1 class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-8">Your Groups as an owner
         </h1>
-        @for (group of groups; track $index) {
+        @for (group of (groups$ | async); track $index) {
         <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-8 mb-4">
             <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{group.name}}</h1>
             <div class="grid md:grid-cols">
                 <p class="text-lg text-gray-500 dark:text-gray-400 ">descripcion: {{group.description}}</p>
                 <p class="text-lg text-gray-500 dark:text-gray-400 ">Integrantes: {{group.musicians}}</p>
                 <p class="text-lg text-gray-500 dark:text-gray-400 ">Género: {{group.genre}}</p>
+            </div>
+            <div class="flex gap-2 mt-2">
+                <button (click)="editGroup(group.id_group)" type="submit" class="jam-it-button neutral">Edit</button>
+                <button (click)="deleteGroup(group.id_group)" type="submit" class="jam-it-button warning">Delete</button>
             </div>
         </div>
         }
@@ -48,7 +52,7 @@
                         grupo</label>
                     <select formControlName="id_group" id="group"
                         class="bg-white text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        @for (group of groups; track $index) {<option [value]="group.id_group">{{ group.name }}</option>
+                        @for (group of (groups$ | async); track $index) {<option [value]="group.id_group">{{ group.name }}</option>
                         }
                     </select>
                     @if (applicationForm.get('id_group').invalid && applicationForm.get('id_group').touched) {

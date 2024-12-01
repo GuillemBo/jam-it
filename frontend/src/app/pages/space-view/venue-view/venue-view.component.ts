@@ -35,7 +35,7 @@ export class VenueViewComponent {
     if (confirm('seguro que quieres eliminar venue?') == true) {
     this._venueService.deleteVenueById(id_venue).subscribe(data => {
       console.log(data)
-      this._toastr.warning('El producto fue eliminado con éxito', 'Producto eliminado')
+      this._toastr.warning('El venue fue eliminado con éxito', 'Venue eliminado')
       this.userId$.pipe(take(1)).subscribe(userId => {
         this._venueService.loadVenuesByUserId(userId)
       })

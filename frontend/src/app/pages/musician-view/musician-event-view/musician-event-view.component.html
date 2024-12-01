@@ -1,1 +1,33 @@
-<p>musician-event-view works!</p>
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+        <h1 class="text-gray-900 dark:text-white text-3xl md:text-5xl font-extrabold mb-8">Events where you have applied
+        </h1>
+        @for (group of groups$ | async; track $index) {
+        <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">{{group.name}}</h1>
+            @for (application of group.applications; track $index) {
+                <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-5 md:p-8 mb-4">
+                    <h1 class="text-gray-900 dark:text-white text-2xl md:text-3xl font-extrabold mb-2">
+                        {{application.events.name}}</h1>
+                    <div class="grid md:grid-cols">
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">{{application.events.description}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">{{application.events.f_ini | date:'dd MMMM y'}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">{{application.events.f_end | date:'dd MMMM y'}}</p>
+                        <h1>Application Information:</h1>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">{{application.descriptiondeloquehago}}</p>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 ">{{application.titulodeloquehago}}</p>
+                        <p>Status:
+                            <span [ngClass]="{
+                            'text-yellow-300 font-bold': application.status === statusEnum.PENDING,
+                            'text-green-500 font-bold': application.status === statusEnum.ACCEPTED,
+                            'text-red-600 font-bold': application.status === statusEnum.REJECTED
+                            }">{{ application.status }}</span>
+                        </p>
+                    </div>
+                    <div class="flex justify-end">
+                        <button (click)="deleteApplication(application.id_application)" class="jam-it-button warning">delete application</button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>

@@ -8,7 +8,7 @@ import { RoutesEnum } from '../../shared/models/routes.enum';
 @Component({
   selector: 'app-musician-view',
   standalone: true,
-  imports: [CommonModule, RouterModule, CreateGroupFormComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './musician-view.component.html',
   styleUrl: './musician-view.component.scss'
 })

@@ -10,7 +10,7 @@ const router = Router();
 
 // Rutas para obtener y modificar los datos de los usuarios
 router.get('/', authenticateToken(['musician', 'venue']), getGroups);
-router.get('/groups/:userId', authenticateToken(['musician']), getGroupsByUserId);
+router.get('/groupsByUserId/:userId', authenticateToken(['musician']), getGroupsByUserId);
 router.get('/:id', authenticateToken(['musician', 'venue']), groupIdValidator, getGroupById);
 router.post('/', authenticateToken(['musician']), groupValidator, createGroup);
 router.patch('/:id', authenticateToken(['musician']), groupIdValidator, groupValidator, updateGroup);

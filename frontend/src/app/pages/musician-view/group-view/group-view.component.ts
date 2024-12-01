@@ -5,6 +5,9 @@ import { GroupService } from '../../../shared/services/group.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApplicationService } from '../../../shared/services/application.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-group-view',
@@ -17,7 +20,8 @@ export class GroupViewComponent implements OnInit {
 
   eventsToApply: any[] = [];
   userId: number = null;
-  groups: any[] = [];
+  userId$ = this._authService.userId$;
+  groups$ = this._groupService.getUserGroups$()
 
   applicationForm: FormGroup = this.fb.group({});
 
@@ -26,7 +30,13 @@ export class GroupViewComponent implements OnInit {
   titulodeloquehago: string
   descriptiondeloquehago: string
 
-  constructor (private _eventService: EventService, private _applicationService: ApplicationService , private groupService: GroupService, private authService: AuthService, private fb: FormBuilder){
+  constructor (private _eventService: EventService, 
+    private _applicationService: ApplicationService, 
+    private _groupService: GroupService, 
+    private _authService: AuthService, 
+    private fb: FormBuilder, 
+    private _router: Router,
+    private _toastr: ToastrService){
     this.applicationForm = this.fb.group({
       id_event: new FormControl ('', Validators.required),
       id_group: new FormControl ('', Validators.required),
@@ -36,26 +46,16 @@ export class GroupViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.userId$.subscribe((userId: number) => {
+    this._authService.userId$.subscribe((userId: number) => {
       this.userId = userId;
       console.log("id user:", this.userId);
     });
-    this.getGroupsByUserId()
+    this.userId$.pipe(take(1)).subscribe(userId => {
+      this._groupService.loadGroupsByUserId(userId)
+    })
     this.getEventsToApply()
   }
 
-
-  getGroupsByUserId() {
-    this.groupService.getGroupsByUserId().subscribe({
-      next: (response) => {
-        this.groups = response.data.filter(groups => groups.id_user == this.userId)
-        console.log(`Grupos con el id user ${this.userId}:`, this.groups);
-      },
-      error: (err) => {
-        console.log('Error al buscar los grupos:', err);
-      }
-    });
-  }
 
   getEventsToApply(){
     this._eventService.getEventsByVenueId().subscribe({
@@ -95,4 +95,22 @@ export class GroupViewComponent implements OnInit {
 
     console.log(formData)
   }
+
+
+
+  editGroup(id_group: number): void {
+    this._router.navigate(['/groups/edit', id_group]); // Redirige a la ruta de edición
+  }
+
+  deleteGroup(id_group: number): void {
+    if (confirm('seguro que quieres eliminar grupo?') == true) {
+    this._groupService.deleteGroupById(id_group).subscribe(data => {
+      console.log(data)
+      this._toastr.warning('El grupo fue eliminado con éxito', 'Grupo eliminado')
+      this.userId$.pipe(take(1)).subscribe(userId => {
+        this._groupService.loadGroupsByUserId(userId)
+      })
+    }
+  )}
+}
 }

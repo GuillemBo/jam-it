@@ -118,7 +118,7 @@ export const updateGroup = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { name } = req.body;
+    const { name, musicians, description, genre } = req.body;
 
 
     const group = await Group.findByPk(id);
@@ -130,6 +130,9 @@ export const updateGroup = async (req, res) => {
     }
 
     group.name = name;
+    group.musicians = musicians;
+    group.description = description;
+    group.genre = genre;
 
     await group.save();
 

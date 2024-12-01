@@ -33,4 +33,9 @@ export class ApplicationService {
   ));
 
 }
+
+deleteApplicationById(applicationId: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${applicationId}`, {withCredentials: true})
+}
+
 }

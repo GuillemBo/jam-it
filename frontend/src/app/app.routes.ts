@@ -20,6 +20,7 @@ export const routes: Routes = [
     { path: RoutesEnum.VENUE, component: SpaceViewComponent },
     { path: RoutesEnum.CREATEVENUE, component: CreateVenueFormComponent},
     { path: 'venues/edit/:id', component: CreateVenueFormComponent },
+    { path: 'groups/edit/:id', component: CreateGroupFormComponent },
     { path: RoutesEnum.VENUEVIEW, component: VenueViewComponent},
     { path: RoutesEnum.CREATEGROUP, component: CreateGroupFormComponent },
     { path: RoutesEnum.CREATEVENT, component: CreateEventComponent },
